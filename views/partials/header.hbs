@@ -1,0 +1,96 @@
+<!-- Navbar -->
+{{#each language}}
+
+<div class="navbar-fixed">
+  <!-- Product Dropdown for Nav bar (place above nav tag) -->
+  <ul id="dropdown" class="dropdown-content">
+    <li><a href="#honey">{{this.honey}}</a></li>
+    <li class="divider"></li>
+    <li><a href="#mistletoe">{{this.mistletoe}}</a></li>
+    <li class="divider"></li>
+    <li><a href="#pinksalt">{{this.pink_salt}}</a></li>
+    <li class="divider"></li>
+    <li><a href="#propolis">{{this.propolis}}</a></li>
+  </ul>
+
+  <nav class="white nav-extended">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo center grey-text text-darken-2">{{this.title}}</a>
+        <!-- Set side menu bar w/ code below -->
+         <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+           <i id="menu" class="material-icons">menu</i>
+         </a>
+
+         <!-- Menu (still part of Navbar)-->
+         <!-- Lists menu on top, to the R of the brand-logo (class="right")
+        Class hide-on-med~~ means hide the menu bar on screen size medium and below  -->
+         <ul class="right side-main-nav hide-on-med-and-down">
+           <li>
+             <a class="grey-text text-darken-2" href="#account">{{this.log_in_sign_up}}</a>
+           </li>
+           <li>
+             <a class="grey-text text-darken-2" href="#cart">{{this.my_cart}}</a>
+           </li>
+           <li><a class="waves-effect waves-light btn blue darken-3">{{this.log_out}}</a></li>
+         </ul>
+      </div>
+
+      <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        <li class="tab">
+          <a class="grey-text text-darken-2" href="#home">HOME</a>
+        </li>
+        <li class="tab">
+          <a class="grey-text text-darken-2" href="#shop">SHOP</a>
+        </li>
+        <li class="tab">
+          <a class="dropdown-trigger grey-text text-darken-2" href="#products" data-target="dropdown">CATEGORIES<i class="ar material-icons right">arrow_drop_down</i></a>
+        </li>
+        <li class="tab">
+          <a class="grey-text text-darken-2" href="#about">ABOUT US</a>
+        </li>
+        <li class="tab">
+          <a class="grey-text text-darken-2" href="#contact">CONTACT</a>
+        </li>
+      </ul>
+    </div>
+
+    </div>
+  </nav>
+</div>
+
+<!-- Navbar menu for mobile (sidebar menu) -->
+    <!-- **id must match name for data-target up in the a link for the sidenav trigger bar
+    Side bar nav won't show unless initialized with JS -->
+    <ul class="sidenav" id="mobile-nav">
+       <li>
+         <a href="#home">HOME</a>
+       </li>
+       <li>
+         <a href="#products">SHOP</a>
+       </li>
+       <li>
+         <a href="#testimonials">CATEGORIES</a>
+       </li>
+       <li>
+         <a href="#about">ABOUT US</a>
+       </li>
+       <li>
+         <a href="#contact">CONTACT</a>
+       </li>
+       <li>
+         <a href="#account">LOG IN/SIGN UP</a>
+       </li>
+     </ul>
+
+  <div id="test1" class="col s12">Test 1</div>
+  <div id="test2" class="col s12">Test 2</div>
+
+{{/each}}
+
+
+
+
+     <!-- <div id="test1" class="col s12">Test 1</div>
+      <div id="test2" class="col s12">Test 2</div> -->

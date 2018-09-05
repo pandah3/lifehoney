@@ -1,0 +1,19 @@
+ul.nav-center {
+    text-align: center;
+}
+ul.nav-center li {
+    display: inline;
+    float: none;
+}
+ul.nav-center.main-nav li a {
+    display: inline-block;
+    /* line-height: 200px; */
+}
+
+nav {
+  height: 128px;
+}
+
+.brand-logo {
+  line-height: 100px;
+}
