@@ -7,11 +7,14 @@ var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
 require('dotenv').config();
 var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+mongoose.connect('mlab');
 
 // view engine setup
 
