@@ -13,7 +13,7 @@ MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.D
 /* GET home page. */
 // the :language*? allows for a value to be assinged to language. the : followed by any word allows
 // for data being passed through the header to be retrieved by using req.params.CORRESPONDINGWORD.
-router.get('/:language*?', function(req, res, next) {
+router.get('/:language?', function(req, res, next) {
   var languageCode = req.params.language;
   // languageCode is undefined when there isn't a value being passed in, in the header so we set it
   // to 'en' for english so that english is our default language.
