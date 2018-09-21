@@ -6,7 +6,7 @@ var Product = require('../models/product');
 //manually connecting to mongoose
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney');
+mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true });
 
 var products = [
   new Product({
