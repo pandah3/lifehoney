@@ -14,7 +14,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-mongoose.connect('mlab');
+mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney');
 
 // view engine setup
 
