@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 //dont need to specify product.js b/c within same js files
-var Product = require('../models/product')
+var Product = require('../models/product');
 
 //manually connecting to mongoose
 var mongoose = require('mongoose');
@@ -80,6 +80,7 @@ var done = 0;
 for (var i = 0; i < products.length; i++) {
   products[i].save(function(err, result) {
     done++;
+    console.log(done);
     if (done === products.length) {
       exit();
     }

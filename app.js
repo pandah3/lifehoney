@@ -48,7 +48,6 @@ app.use(function(req, res, next) {
 
 const server = app.listen(3000, function() {
   console.log('listening on 3000')
-  console.log(process.env.MESSAGE_HERE);
 });
 
 // error handler
