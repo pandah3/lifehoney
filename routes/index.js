@@ -7,7 +7,7 @@ var Product = require('../models/product');
 var async = require('async');
 
 var db
-MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', (err, database) => {
+MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true }, (err, database) => {
   if (err) return console.log(err)
   db = database.db('lifehoney')
 });
@@ -18,7 +18,7 @@ MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.D
 router.get('/:language?', function(req, res, next) {
   var languageCode = req.params.language;
   // languageCode is undefined when there isn't a value being passed in, in the header so we set it
-  // to 'en' for english so that english is our default language.
+  // to 'ko' for english so that korean is our default language.
   if (languageCode === undefined) {
     languageCode = 'ko'
   }
