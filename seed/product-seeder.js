@@ -1,4 +1,5 @@
 //1 seeder per model
+require('dotenv').config();
 
 //dont need to specify product.js b/c within same js files
 var Product = require('../models/product');
@@ -10,41 +11,59 @@ mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_P
 
 var products = [
   new Product({
-    imagePath: '',
-    title: 'Propolis',
-    description: 'testing',
-    price: 12
+  imagePath: 'images/propolis.png',
+  title: 'Propolis',
+  description: 'testing',
+  price: 12
   }),
   new Product({
-    imagePath: '',
-    title: 'Propolis',
-    description: 'testing',
-    price: 12
+  imagePath: 'images/salt.jpg',
+  title: 'Salt',
+  description: 'testing',
+  price: 12
   }),
   new Product({
-    imagePath: '',
-    title: 'Propolis',
-    description: 'testing',
-    price: 12
+  imagePath: 'images/propolis2.png',
+  title: 'Propolis',
+  description: 'testing',
+  price: 12
   }),
   new Product({
-    imagePath: '',
-    title: 'Propolis',
-    description: 'testing',
-    price: 12
+  imagePath: 'images/dentalsalt.jpg',
+  title: 'Dental Salt',
+  description: 'testing',
+  price: 12
   }),
   new Product({
-    imagePath: '',
-    title: 'Propolis',
-    description: 'testing',
-    price: 12
+  imagePath: 'images/honey.jpg',
+  title: 'Honey',
+  description: 'testing',
+  price: 12
   }),
   new Product({
-    imagePath: '',
-    title: 'Propolis',
-    description: 'testing',
-    price: 12
-  })
+  imagePath: 'images/honey1.jpg',
+  title: 'Honey',
+  description: 'testing',
+  price: 12
+  }),
+  new Product({
+  imagePath: 'images/powder.png',
+  title: 'Honey',
+  description: 'testing',
+  price: 12
+  }),
+  new Product({
+  imagePath: 'images/pills.png',
+  title: 'Honey',
+  description: 'testing',
+  price: 12
+  }),
+  new Product({
+  imagePath: 'images/sugar.jpg',
+  title: 'Sugar',
+  description: 'testing',
+  price: 12
+  }),
 ];
 
 //store all products in database
