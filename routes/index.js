@@ -3,8 +3,15 @@ var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 //this will configure the .env fil
 require('dotenv').config();
-var Product = require('../models/product');
 var async = require('async');
+var csrf = require('csurf');
+var passport = require('passport');
+
+var Product = require('../models/product');
+
+var csrfProtection = csrf();
+//all the routes used by router is protected by csrf
+router.use(csrfProtection);
 
 var db
 MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true }, (err, database) => {
@@ -51,6 +58,33 @@ router.get('/:language?', function(req, res, next) {
     res.render('index', locals)
     })
   });
+
+router.get('/user/signup', function(req, res, next) {
+  var message = req.flash('error');
+  res.render('user/signup', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
+});
+
+//local signup is from passport.js (in passport.use)
+router.post('/user/signup', passport.authenticate('local.signup', {
+  successRedirect: '/user/profile',
+  failureRedirect: '/user/signup',
+  failureFlash: true
+}));
+
+router.get('/user/profile', function(req, res, next) {
+  res.render('user/profile');
+});
+
+router.get('/user/login', function(req, res, next) {
+  var message = req.flash('error');
+  res.render('user/login', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
+});
+
+router.post('/user/login', passport.authenticate('local.login', {
+  successRedirect: '/user/profile',
+  failureRedirect: '/user/login',
+  failureFlash: true
+}));
 
 module.exports = router;
 
