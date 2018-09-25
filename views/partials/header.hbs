@@ -23,26 +23,36 @@
          </a>
          <ul class="left side-main-nav">
            <li>
-             <a class="grey-text text-darken-2" href="./en">English</a>
+             <a class="grey-text text-darken-2" href="./en">{{this.english}}</a>
            </li>
            <li>
-             <a class="grey-text text-darken-2" href="./ko">Hangook</a>
+             <a class="grey-text text-darken-2" href="./ko">{{this.korean}}</a>
            </li>
            <li>
-             <a class="grey-text text-darken-2" href="./ch">Mandarin</a>
+             <a class="grey-text text-darken-2" href="./ch">{{this.chinese}}</a>
            </li>
          </ul>
          <!-- Menu (still part of Navbar)-->
          <!-- Lists menu on top, to the R of the brand-logo (class="right")
         Class hide-on-med~~ means hide the menu bar on screen size medium and below  -->
          <ul class="right side-main-nav hide-on-med-and-down">
+           {{#if ../login }}
+            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile"><i class="fa fa-user" aria-hidden="true"></i> {{this.my_account}}</a></li>
+            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/logout">{{this.log_out}}</a></li>
+           {{ else }}
            <li>
-             <a class="grey-text text-darken-2" href="#account">{{this.log_in_sign_up}}</a>
+             <a class="grey-text text-darken-2" href="/user/login">{{this.log_in}}</a>
            </li>
            <li>
-             <a class="grey-text text-darken-2" href="#cart">{{this.my_cart}}</a>
+             <a class="grey-text text-darken-2" href="/user/signup">{{this.sign_up}}</a>
            </li>
-           <li><a class="waves-effect waves-light btn blue darken-3">{{this.log_out}}</a></li>
+           {{/if}}
+           <li>
+             <a class="grey-text text-darken-2" href="/shopping-cart/">
+               <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{this.my_cart}}
+               <span class="new badge">{{../session.cart.totalQty}}</span>
+             </a>
+           </li>
          </ul>
       </div>
 

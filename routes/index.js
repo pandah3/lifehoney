@@ -1,23 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 //this will configure the .env fil
 require('dotenv').config();
 var async = require('async');
-var csrf = require('csurf');
-var passport = require('passport');
 
+var Cart = require('../models/cart');
 var Product = require('../models/product');
-
-var csrfProtection = csrf();
-//all the routes used by router is protected by csrf
-router.use(csrfProtection);
 
 var db
 MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true }, (err, database) => {
   if (err) return console.log(err)
   db = database.db('lifehoney')
 });
+
+// mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true });
+
 
 /* GET home page. */
 // the :language*? allows for a value to be assinged to language. the : followed by any word allows
@@ -59,32 +59,31 @@ router.get('/:language?', function(req, res, next) {
     })
   });
 
-router.get('/user/signup', function(req, res, next) {
-  var message = req.flash('error');
-  res.render('user/signup', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
+router.get('/add-to-cart/:id', function(req, res, next) {
+  var productId = req.params.id;
+  //passing in old cart if you have one
+  //ternary expression: if the old cart does exist, pass the old cart, if not, pass an empty old cart object
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+  db.collection('products').findOne({'_id': ObjectId(req.params.id)}, function(err, product) {
+    if (err) {
+      return res.redirect('/');
+      console.log(err);
+    }
+    console.log(product._id);
+    cart.add(product, product._id);
+    req.session.cart = cart;
+    console.log(req.session.cart);
+    res.redirect('/')
+  });
 });
 
-//local signup is from passport.js (in passport.use)
-router.post('/user/signup', passport.authenticate('local.signup', {
-  successRedirect: '/user/profile',
-  failureRedirect: '/user/signup',
-  failureFlash: true
-}));
-
-router.get('/user/profile', function(req, res, next) {
-  res.render('user/profile');
+router.get('/shopping-cart/', function(req, res, next) {
+  if (!req.session.cart) {
+    return res.render('shop/shopping-cart', {products: null});
+  }
+  var cart = new Cart(req.session.cart);
+  res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
-
-router.get('/user/login', function(req, res, next) {
-  var message = req.flash('error');
-  res.render('user/login', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
-});
-
-router.post('/user/login', passport.authenticate('local.login', {
-  successRedirect: '/user/profile',
-  failureRedirect: '/user/login',
-  failureFlash: true
-}));
 
 module.exports = router;
 
@@ -95,16 +94,6 @@ module.exports = router;
 // res.render('index', {title: 'Life Honey', products: productChunks});
 // });
 
-
-// Product.find(function(err, docs) {
-//   var productChunks = [];
-//   var chunkSize = 3;
-//   //increment for loop not by 1, but by each chunk size
-//   for (var i = 0; i < docs.length; i += chunkSize) {
-//     //if i = 0, then slice after every 3rd element (0 + 3)
-//     productChunks.push(docs.slice(i, i + chunkSize));
-//   }
-// });
 
 // function(err, docs) {
 //   var productChunks = [];
