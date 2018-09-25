@@ -47,7 +47,7 @@ app.use(session({
   //use existing mongoose connection to store
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
   //ouput in ms: 180 min x 60 sec x 1000 milliseconds
-  cookie: { maxAge: 180 * 60 * 1000 }
+  cookie: { maxAge: 1440 * 60 * 1000 }
 }));
 app.use(flash());
 app.use(passport.initialize());

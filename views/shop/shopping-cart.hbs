@@ -1,6 +1,11 @@
+<h2><i class="fa fa-shopping-cart fa-5x" aria-hidden="true"></i> SHOPPING CART</h2>
+
+{{# if products}}
+
 <div class="row">
   <div class="col s6 m6">
     <ul class="list-group">
+      {{# each products}}
       <li class="list-group-item">
         <span class="badge"></span>
         <strong>Title</strong>
@@ -13,25 +18,49 @@
           </ul>
         </div>
       </li>
+      {{/each}}
     </ul>
   </div>
-</div>
+ </div>
 
-<div class="row">
+<!-- <div class="row">
   <div class="col s6 m6">
-    <strong>Total: </strong>
-  </div>
-</div>
-<hr>
-<div class="row">
-  <div class="col s6 m6">
-    <button type="button" name="button" class="btn btn-success">Checkout</button>
-  </div>
-</div>
+    <ul class="collection">
+      {{# each products}}
+      <li class="collection-item">
+        <span class="badge">{{ this.qty }}</span>
+        <strong>{{ this.item.title }}</strong>
+        <span class="label label-success"> ${{ this.price }}</span>
+        <div class="">
+          <a class="dropdown-trigger btn" href="#" data-target="dropdown1">Action</a>
+          <ul id="dropdown1" class="dropdown-menu">
+            <li> <a href="#">Reduce by 1</a></li>
+            <li> <a href="#">Remove All</a></li>
+          </ul>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+  </div> -->
 
+  <div class="row">
+    <div class="col s6 m6">
+      <strong>Total: {{ totalPrice }}</strong>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col s6 m6">
+      <a href="/cart/checkout"><button type="button" name="button" class="btn btn-success">Checkout</button></a>
+    </div>
+  </div>
+
+{{ else }}
 <!-- don't display anything if there's 0 items in cart -->
 <div class="row">
   <div class="col s6 m6">
     <h2>No Items in Cart</h2>
   </div>
 </div>
+
+{{/if}}

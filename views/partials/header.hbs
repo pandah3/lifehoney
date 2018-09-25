@@ -41,14 +41,14 @@
             <li><a class="waves-effect waves-light btn blue darken-3" href="/user/logout">{{this.log_out}}</a></li>
            {{ else }}
            <li>
-             <a class="grey-text text-darken-2" href="/user/login">{{this.log_in}}</a>
+             <a class="grey-text text-darken-2" href="/user/login"><i class="fa fa-user" aria-hidden="true"></i> {{this.log_in}}</a>
            </li>
            <li>
              <a class="grey-text text-darken-2" href="/user/signup">{{this.sign_up}}</a>
            </li>
            {{/if}}
            <li>
-             <a class="grey-text text-darken-2" href="/shopping-cart/">
+             <a class="grey-text text-darken-2" href="/shopping/cart/">
                <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{this.my_cart}}
                <span class="new badge">{{../session.cart.totalQty}}</span>
              </a>
