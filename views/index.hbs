@@ -47,7 +47,7 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
                 <p>{{this.price}}</p>
               </div>
               <div class="card-action">
-                <button type="cart" name="addToCart" value="Add To Cart" class="btn pink">Add To Cart</button>
+                <button type="cart" name="addToCart" value="Add To Cart" class="btn pink"><a href="/add-to-cart/{{this._id}}">Add To Cart</a></button>
                 <!-- <a href="#">Add to Cart</a> -->
               </div>
             </div>
@@ -67,8 +67,8 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
              <div id="honey" class="card-panel">
                <a href="#honey" class="black-text">
                  <i class="material-icons large teal-text">spa</i>
-                 <h4>꿀</h4>
-                 <p>A 등급 꿀</p>
+                 <h4>{{this.honey}}</h4>
+                 <p>{{this.grade_a_honey}}</p>
                </a>
              </div>
            </div>
@@ -76,8 +76,8 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
              <div id="mistletoe" class="card-panel">
                <a href="#mistletoe" class="black-text">
                  <i class="material-icons large teal-text">thumb_up</i>
-                 <h4>겨우살이</h4>
-                 <p>겨우살이</p>
+                 <h4>{{this.mistletoe}}</h4>
+                 <p>{{this.organic_mistletoe}}</p>
                </a>
              </div>
            </div>
@@ -85,8 +85,8 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
              <div id="pinksalt" class="card-panel">
                <a href="#pinksalt" class="black-text">
                  <i class="material-icons large teal-text">public</i>
-                 <h4>볼리비아 소금</h4>
-                 <p>볼리비아 자연산 핑크소금</p>
+                 <h4>{{this.pink_salt}}</h4>
+                 <p>{{this.salt_from_bolivia}}</p>
                </a>
              </div>
            </div>
@@ -94,8 +94,8 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
              <div id="propolis" class="card-panel">
                <a href="#propolis" class="black-text">
                  <i class="material-icons large teal-text">favorite_border</i>
-                 <h4>프로폴리스</h4>
-                 <p>캐나다산 프로폴리스</p>
+                 <h4>{{this.propolis}}</h4>
+                 <p>{{this.propolis_from_canada}}</p>
                </a>
              </div>
            </div>
@@ -175,4 +175,3 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
        <p class="flow-text">Video Mart &copy; 2018</p>
      </footer>
 {{/each}}
- 
