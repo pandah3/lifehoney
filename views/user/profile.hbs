@@ -1,3 +1,36 @@
-<h1>User Profile</h1>
+<!-- User Profile -->
+<div class="row">
+  <div class="col m8 offset-m2">
+    <h1>User Profile</h1>
+    <hr>
+    <h2>My Orders</h2>
 
-<a href="/">Home</a>
+<!-- Display Orders -->
+    <!-- each card is 1 order -->
+    {{# each order }}
+      <div class="row">
+        <div class="col s12 m8">
+          <div class="card">
+            <div class="card-content">
+              <strong>Order #:</strong>
+              <ul class="collection">
+                <!-- looping through all items in current order -->
+                {{# each this.items }}
+                  <li class="collection-item">
+                    <!-- this.price, qty, title all from models/cart.js -->
+                    <span class="badge"> ${{ this.price }}</span>
+                    {{ this.item.title }} | Qty: {{ this.qty }}
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+            <div class="card-action teal lighten-3">
+              <strong>Order Total: ${{ this.cart.totalPrice }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+    <a href="/">Return to home</a>
+  </div>
+</div>

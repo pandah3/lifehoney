@@ -9,6 +9,7 @@ var async = require('async');
 
 var Cart = require('../models/cart');
 var Product = require('../models/product');
+var Order =require('../models/order');
 
 var db
 MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true }, (err, database) => {
@@ -23,6 +24,7 @@ MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.D
 // the :language*? allows for a value to be assinged to language. the : followed by any word allows
 // for data being passed through the header to be retrieved by using req.params.CORRESPONDINGWORD.
 router.get('/:language?', function(req, res, next) {
+  var successMsg = req.flash('success')[0];
   var languageCode = req.params.language;
   // languageCode is undefined when there isn't a value being passed in, in the header so we set it
   // to 'ko' for english so that korean is our default language.
@@ -31,7 +33,9 @@ router.get('/:language?', function(req, res, next) {
   }
 
   var locals = {
-    languageCode: languageCode
+    languageCode: languageCode,
+    successMsg: successMsg,
+    noMessage: !successMsg
   };
 
   var task = [
@@ -77,6 +81,7 @@ router.get('/add-to-cart/:id', function(req, res, next) {
   });
 });
 
+//Shopping Cart Routes
 router.get('/shopping/cart/', function(req, res, next) {
   if (!req.session.cart) {
     //going into views directory, then shop directory, then shopping-cart.hbs
@@ -87,33 +92,70 @@ router.get('/shopping/cart/', function(req, res, next) {
   res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
-router.get('/cart/checkout', function(req, res, next) {
+//Checkout Routes
+router.get('/cart/checkout', isLoggedIn, function(req, res, next) {
   if (!req.session.cart) {
     return res.redirect('/shopping/cart');
   }
   var cart = new Cart(req.session.cart);
-  res.render('shop/checkout', {total: cart.totalPrice});
+  //overriding error message from stripe and creating our own error message
+  var errMsg = req.flash('error')[0];
+  res.render('shop/checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+});
+
+router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
+  if (!req.session.cart) {
+    return res.redirect('/shopping/cart');
+  }
+
+  var cart = new Cart(req.session.cart);
+
+  var stripe = require("stripe")("sk_test_lSh6kkhoUKBL6E7YjkPtiye2");
+
+  stripe.charges.create({
+    // amount is shown in cents (so 2000 = $20)
+    amount: cart.totalPrice * 100,
+    currency: "usd",
+    source: req.body.stripeToken, // obtained with Stripe.js
+    description: "Test Charge"
+  }, function(err, charge) {
+
+  // asynchronously called (function called when done)
+    if (err) {
+      req.flash('error', err.message);
+      return res.redirect('/cart/checkout');
+    }
+
+    //saving order to database
+    var order = new Order ({
+      user: req.user,
+      cart: cart,
+      addressStreet: req.body.addressStreet,
+      addressCity: req.body.addressCity,
+      addressState: req.body.addressState,
+      addressZipcode: req.body.addressZipcode,
+      name: req.body.name,
+      paymentId: charge.id
+    });
+    order.save(function(err, result) {
+      if (err) {
+        throw err;
+      }
+      //if checkout/verification successful, flash this message
+      req.flash('success', "Thank you for your purchase!");
+      req.session.cart = null;
+      res.redirect('/');
+    });
+  });
 });
 
 module.exports = router;
 
-    // res.render('index', {language: result});
-  // rendering index.hbs & title in head of layout.hbs (for tab title)
-  // res.render('index', { title: 'LIFE HONEY' });
-
-// res.render('index', {title: 'Life Honey', products: productChunks});
-// });
-
-
-// function(err, docs) {
-//   var productChunks = [];
-//   var chunkSize = 3;
-//   //increment for loop not by 1, but by each chunk size
-//   for (var i = 0; i < docs.length; i += chunkSize) {
-//     //if i = 0, then slice after every 3rd element (0 + 3)
-//     productChunks.push(docs.slice(i, i + chunkSize));
-//   }
-//   locals.products = productChunks;
-//   console.log('this should be products' + productChunks);
-//   callback();
-// })
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  //in case they are not logged in
+  req.session.oldUrl = req.url;
+  res.redirect('/user/login');
+}
