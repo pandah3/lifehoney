@@ -63,6 +63,8 @@ router.get('/:language?', function(req, res, next) {
     })
   });
 
+
+//GET Add to Cart
 router.get('/add-to-cart/:id', function(req, res, next) {
   var productId = req.params.id;
   //passing in old cart if you have one
@@ -81,7 +83,8 @@ router.get('/add-to-cart/:id', function(req, res, next) {
   });
 });
 
-//Shopping Cart Routes
+
+//GET Shopping Cart
 router.get('/shopping/cart/', function(req, res, next) {
   if (!req.session.cart) {
     //going into views directory, then shop directory, then shopping-cart.hbs
@@ -92,7 +95,30 @@ router.get('/shopping/cart/', function(req, res, next) {
   res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
+
+//GET Reduce- Reduce Qty of Items in Cart
+router.get('/reduce/:id', function(req, res, next) {
+  var productId = req.params.id;
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+  cart.reduceByOne(productId);
+  req.session.cart = cart;
+  res.redirect('/shopping/cart/');
+});
+
+//GET Remove- Remove Item(s) in Cart
+router.get('/remove/:id', function(req, res, next) {
+  var productId = req.params.id;
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+  cart.removeItem(productId);
+  req.session.cart = cart;
+  res.redirect('/shopping/cart/');
+});
+
+
 //Checkout Routes
+  //GET Checkout
 router.get('/cart/checkout', isLoggedIn, function(req, res, next) {
   if (!req.session.cart) {
     return res.redirect('/shopping/cart');
@@ -103,6 +129,7 @@ router.get('/cart/checkout', isLoggedIn, function(req, res, next) {
   res.render('shop/checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
 });
 
+  //POST Checkout
 router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
   if (!req.session.cart) {
     return res.redirect('/shopping/cart');
