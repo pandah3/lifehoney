@@ -1,5 +1,15 @@
 <!-- <head> w/ links to css, google fonts, title, etc. is in layout.hbs
 navbar code is in in header.hbs but included (linked) in layout.hbs-->
+
+<!-- Redirect to main homepage & flash success message if you've successfully bought items -->
+<div class="row">
+  <div class="col s6 m4 offset-m4 offset-s3">
+    <div id="success" class="alert alert-success" {{#if noMessage}}hidden{{/if}}>
+      {{ successMsg }}
+    </div>
+  </div>
+</div>
+
 {{#each language}}
      <!-- Section: Slider (banner of photos sliding) -->
      <section class="slider">

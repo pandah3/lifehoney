@@ -6,27 +6,38 @@ var async = require('async');
 var csrf = require('csurf');
 var passport = require('passport');
 
+var Order = require('../models/order');
+var Cart = require('../models/cart');
+
 var csrfProtection = csrf();
 //all the routes used by router is protected by csrf
 router.use(csrfProtection);
 
 /* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
 
-//Profile
+//PROFILE ROUTES
 router.get('/profile', isLoggedIn, function(req, res, next) {
-  res.render('user/profile');
+  Order.find({user: req.user}, function(err, orders) {
+    if (err) {
+      return res.write('Sorry, there were no orders found');
+    }
+    var cart;
+    orders.forEach(function(order) {
+      cart = new Cart(order.cart);
+      order.items = cart.generateArray();
+    });
+    res.render('user/profile', { order: orders });
+  });
 });
 
-//Logout
+//LOGOUT Routes
 router.get('/logout', isLoggedIn, function(req, res, next) {
   req.logout();
   res.redirect('/');
 });
 
 //**ALL ROUTES BELOW THIS WILL BE AFFECTED BY NOTLOGGEDIN FUNCTION
+
 router.use('/', notLoggedIn, function(req, res, next) {
   next();
 });
@@ -38,22 +49,37 @@ router.get('/signup', function(req, res, next) {
 
 //local signup is from passport.js (in passport.use)
 router.post('/signup', passport.authenticate('local.signup', {
-  successRedirect: '/user/profile',
   failureRedirect: '/user/signup',
   failureFlash: true
-}));
+}), function(req, res, next) { //if user is signed up, run this
+  if (req.session.oldUrl) {
+    var oldUrl = req.session.oldUrl; //retrieve old url
+    req.session.oldUrl = null; //clear it
+    res.redirect(oldUrl);
+  } else {
+    res.redirect('/user/profile');
+  }
+});
 
-//Login
+//LOGIN Routes
 router.get('/login', function(req, res, next) {
   var message = req.flash('error');
   res.render('user/login', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
 });
 
 router.post('/login', passport.authenticate('local.login', {
-  successRedirect: '/user/profile',
+  //if user is not logged in, run this
   failureRedirect: '/user/login',
   failureFlash: true
-}));
+}), function(req, res, next) { //if user is logged in, run this
+  if (req.session.oldUrl) {
+    var oldUrl = req.session.oldUrl; //retrieve old url
+    req.session.oldUrl = null; //clear it
+    res.redirect(oldUrl);
+  } else {
+    res.redirect('/user/profile');
+  }
+});
 
 module.exports = router;
 
