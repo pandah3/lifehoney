@@ -57,8 +57,8 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
                 <p>{{this.price}}</p>
               </div>
               <div class="card-action">
-                <button type="cart" name="addToCart" value="Add To Cart" class="btn pink"><a href="/add-to-cart/{{this._id}}">Add To Cart</a></button>
-                <!-- <a href="#">Add to Cart</a> -->
+                <!-- value is what shows on the button -->
+                <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink">Add To Cart</button></a>
               </div>
             </div>
           </div>

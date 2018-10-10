@@ -19,7 +19,6 @@ MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.D
 
 // mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true });
 
-
 /* GET home page. */
 // the :language*? allows for a value to be assinged to language. the : followed by any word allows
 // for data being passed through the header to be retrieved by using req.params.CORRESPONDINGWORD.
@@ -67,8 +66,9 @@ router.get('/:language?', function(req, res, next) {
 //GET Add to Cart
 router.get('/add-to-cart/:id', function(req, res, next) {
   var productId = req.params.id;
+  console.log(productId);
   //passing in old cart if you have one
-  //ternary expression: if the old cart does exist, pass the old cart, if not, pass an empty old cart object
+  //ternary expression: if the old cart does exist, pass the old cart, if not, pass an empty object
   var cart = new Cart(req.session.cart ? req.session.cart : {});
   db.collection('products').findOne({'_id': ObjectId(req.params.id)}, function(err, product) {
     if (err) {
@@ -137,7 +137,7 @@ router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
 
   var cart = new Cart(req.session.cart);
 
-  var stripe = require("stripe")("sk_test_lSh6kkhoUKBL6E7YjkPtiye2");
+  var stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
   stripe.charges.create({
     // amount is shown in cents (so 2000 = $20)
