@@ -1,3 +1,5 @@
+//Product Model
+
 //Storing all mongoose models in the models directory
 //mongoose uses schemas, which are like blueprints that help define the data for the models
 //schemas are blueprints for each new entry into the database; models are based on schemas

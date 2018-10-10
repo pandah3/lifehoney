@@ -5,9 +5,8 @@ var Schema = mongoose.Schema;
 
 //pass JS object defining/describing that schema
 var schema = new Schema({
-  //store an id for the user, but behind the scenes, that id is actually connected to
-  //the user collection in the user model (in user.js)
-  user: {type: Schema.Types.ObjectId, ref:'User'},
+  user: {type: Schema.Types.ObjectId, ref:'User'}, //store an id for the user, but behind the scenes,
+  // that id is actually connected to the user collection in the user model (in user.js)
   cart: {type: Object, required: true},
   addressStreet: {type: String, required: true},
   addressCity: {type: String, required: true},
