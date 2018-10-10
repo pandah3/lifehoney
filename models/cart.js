@@ -5,6 +5,7 @@ module.exports = function Cart(oldCart) {
   this.totalQty = oldCart.totalQty || 0;
   this.totalPrice = oldCart.totalPrice || 0;
 
+//adding a new product to cart (& checking if product already exists in cart)
   this.add = function(item, id) {
     var storedItem = this.items[id];
     //if the current item you're adding to the cart is not part of the old cart,
