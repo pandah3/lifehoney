@@ -1,5 +1,7 @@
-// Stripe
+/* Stripe */
+
 //front end - not running on node.js server
+//code grabbed from Stripe documentation
 
 Stripe.setPublishableKey('pk_test_cUP9Is5sXWwN7obZmSxHdkHQ');
 

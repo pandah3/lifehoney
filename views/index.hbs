@@ -1,7 +1,9 @@
-<!-- <head> w/ links to css, google fonts, title, etc. is in layout.hbs
-navbar code is in in header.hbs but included (linked) in layout.hbs-->
+<!-- * Homepage * -->
 
-<!-- Redirect to main homepage & flash success message if you've successfully bought items -->
+<!-- <head> w/ links to css, google fonts, title, etc. is in layout.hbs
+navbar is in in header.hbs but included (linked) in layout.hbs-->
+
+<!-- After Checkout: redirect to main homepage & flash success message if you've successfully bought items -->
 <div class="row">
   <div class="col s6 m4 offset-m4 offset-s3">
     <div id="success" class="alert alert-success" {{#if noMessage}}hidden{{/if}}>
@@ -15,46 +17,48 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
      <section class="slider">
        <!-- Copied whole ul section from materialize -->
        <ul class="slides">
-      <li>
-        <img src="/images/alfalfa.png" alt="Bee on alfalfa flowers">
-        <div class="caption center-align">
-          <h2>{{this.alfalfa_honey}}</h2>
-          <h5 class="light grey-text text-lighten-3 hide-on-small-only">{{this.grade_a_honey}}</h5>
-          <!-- hide on small only hides subtext caption when browser is small -->
-        </div>
-      </li>
-      <li>
-        <img src="/images/honey1.jpg" alt="Honey">
-        <div class="caption right-align">
-          <h2>{{this.great_for_your_health}}</h2>
-          <h5 class="light grey-text text-lighten-3 hide-on-small-only">{{this.honey_has_many_health_benefits}}</h5>
-        </div>
-      </li>
-      <li>
-        <img src="/images/mistletoe.jpg" alt="Mistletoe">
-        <div class="caption left-align">
-          <h2>{{this.mistletoe}}</h2>
-          <h5 class="light grey-text text-lighten-3 hide-on-small-only">{{this.organic_mistletoe}}</h5>
-        </div>
-      </li>
-    </ul>
+         <li>
+           <img src="/images/alfalfa.png" alt="Bee on alfalfa flowers">
+           <div class="caption center-align">
+             <h2>{{this.alfalfa_honey}}</h2>
+             <!-- hide on small only hides subtext caption when browser is small -->
+             <h5 class="light grey-text text-lighten-3 hide-on-small-only">{{this.grade_a_honey}}</h5>
+          </div>
+        </li>
+        <li>
+          <img src="/images/honey1.jpg" alt="Honey">
+          <div class="caption right-align">
+            <h2>{{this.great_for_your_health}}</h2>
+            <h5 class="light grey-text text-lighten-3 hide-on-small-only">{{this.honey_has_many_health_benefits}}</h5>
+          </div>
+        </li>
+        <li>
+          <img src="/images/mistletoe.jpg" alt="Mistletoe">
+          <div class="caption left-align">
+            <h2>{{this.mistletoe}}</h2>
+            <h5 class="light grey-text text-lighten-3 hide-on-small-only">{{this.organic_mistletoe}}</h5>
+          </div>
+        </li>
+      </ul>
      </section>
-{{/each}}
+
      <!-- Section: Best Sellers -->
-     <!-- hashtag indicates a block statement; each products loops through all the products -->
   <section class="section section-best-sellers grey lighten-4 center">
     <div class="row">
-      {{# each products}}
+      <h3>BEST SELLERS</h3>
+      <!-- hashtag indicates a block statement; the each loop loops through all the products -->
+      {{# each ../products}}
         <div class="container">
           <div class="col s12 m4">
             <div class="card medium">
               <div class="card-image">
+                <!-- imagePath is coming from within the products object in mlab -->
                 <img class="responsive-img" src="{{ this.imagePath }}">
                 <!-- <span class="card-title">Card Title</span> -->
               </div>
               <div class="card-content">
                 <p>{{this.title}}</p>
-                <p>{{this.price}}</p>
+                <p>${{this.price}}</p>
               </div>
               <div class="card-action">
                 <!-- value is what shows on the button -->
@@ -67,7 +71,6 @@ navbar code is in in header.hbs but included (linked) in layout.hbs-->
     </div>
   </section>
 
-  {{#each language}}
      <!-- Section: Icon Boxes -->
      <!-- the bigger the # (m6, m7, etc), the bigger each card panel gets -->
      <section class="section section-icons grey lighten-4 center">

@@ -1,4 +1,4 @@
-// Passport
+/* Passport - User Management*/
 
 //importing passport but not using 2 diff instances in here & app.js
 var passport = require('passport');
@@ -7,10 +7,10 @@ var LocalStrategy = require('passport-local').Strategy;
 
 //store user into the session by their user id
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user.id); //done, proceed
 });
 
-//find user's id to retrieve ^ utilize user's info
+//find user's id to retrieve & utilize user's info
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {
     done(err, user);
@@ -22,14 +22,14 @@ passport.deserializeUser(function(id, done) {
 
 //Sign up - creating a new user
 passport.use('local.signup', new LocalStrategy({
-  //configuration - 1st argument
+  //1st argument is configuration
   usernameField: 'email',
   passwordField: 'password',
-  passReqToCallback: true
+  passReqToCallback: true //allowing us to use req
 }, function(req, email, password, done) {
-  //validating that email field is not empty & it's an email addy and that password field is > 4
-  req.checkBody('email', 'Invalid email').notEmpty().isEmail();
-  req.checkBody('password', 'Invalid password').notEmpty().isLength({min:4});
+  //validating that the email field is not empty & it's an email addy
+  req.checkBody('email', 'Invalid email').notEmpty().isEmail(); //checkBody is from express validator
+  req.checkBody('password', 'Invalid password').notEmpty().isLength({min:4}); //password field must be > 4
   var errors = req.validationErrors();
   if (errors) {
     var messages = [];
@@ -43,7 +43,7 @@ passport.use('local.signup', new LocalStrategy({
       return done(err);
     }
     if (user) {
-      return done(null, false, {message: 'Email is already in use.'});
+      return done(null, false, {message: 'Email is already in use.'}); //(error, object, {req.flash})
     }
     var newUser = new User();
     newUser.email = email;
@@ -57,7 +57,7 @@ passport.use('local.signup', new LocalStrategy({
   });
 }));
 
-//Sign in
+//Log in
 passport.use('local.login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
@@ -78,7 +78,7 @@ passport.use('local.login', new LocalStrategy({
       return done(err);
     }
     if (!user) {
-      return done(null, false, {message: 'That user does not exist.'});
+      return done(null, false, {message: 'That user does not exist.'}); //done(error, object, {req.flash})
     }
     if (!user.validPassword(password)) {
       return done(null, false, {message: 'Incorrect password.'});

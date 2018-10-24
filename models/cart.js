@@ -1,11 +1,14 @@
+/* Cart model */
+
+//module exports makes it available to be called on in other files
 module.exports = function Cart(oldCart) {
-  //oldCart is an object; || is a boolean or
+  //oldCart is a placeholder object; || is a boolean or
   //if oldCart.items is undefined use an empty object
   this.items = oldCart.items || {};
   this.totalQty = oldCart.totalQty || 0;
   this.totalPrice = oldCart.totalPrice || 0;
 
-//adding a new product to cart (& checking if product already exists in cart)
+/* Adding a new product to cart (& checking if product already exists in cart) */
   this.add = function(item, id) {
     var storedItem = this.items[id];
     //if the current item you're adding to the cart is not part of the old cart,
@@ -23,14 +26,12 @@ module.exports = function Cart(oldCart) {
     this.totalPrice += storedItem.item.price;
   };
 
-//Reduce qty of item in cart
+/* Reduce qty of item in cart */
   this.reduceByOne = function(id) {
-    //reduce qty of item
-    this.items[id].qty--;
+    this.items[id].qty--; //reduce qty of item
     //overall price of item group total (ie: $12x3 = $36) - price of that single item ($12)
     this.items[id].price -= this.items[id].item.price;
-    //reduce cart total qty and price
-    this.totalQty--;
+    this.totalQty--; //reduce cart total qty and price
     this.totalPrice -= this.items[id].item.price;
 
     //if item qty=0 or less, delete item from cart
@@ -39,14 +40,14 @@ module.exports = function Cart(oldCart) {
     }
   };
 
-  //Remove item(s) from cart
-    this.removeItem = function(id) {
-      this.totalQty -= this.items[id].qty;
-      this.totalPrice -= this.items[id].price;
-      delete this.items[id];
+/* Remove item(s) from cart */
+  this.removeItem = function(id) {
+    this.totalQty -= this.items[id].qty;
+    this.totalPrice -= this.items[id].price;
+    delete this.items[id];
     }
 
-  //changing cart obj to an array so we can list them
+/* Changing cart obj to an array so we can list them */
   this.generateArray = function() {
     var arr = [];
     for (var id in this.items) {

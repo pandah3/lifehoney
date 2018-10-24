@@ -1,7 +1,7 @@
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+var path = require('path'); //pre-installed
+var favicon = require('serve-favicon'); //pre-installed
+var logger = require('morgan'); //pre-installed
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
@@ -21,14 +21,10 @@ var app = express();
 
 mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true });
 require('./config/passport');
-// view engine setup
 
-// app.set('views', path.join(__dirname, 'views'));
-
-//erased above & replaced it with below to use express-handlebars package;
-// expressHbs() executes the package, object inside configures the template engine
-//default layout will search for layout.hbs ; extname is to keep all extensions .hbs, not .handlebars
-// which is the default ext name for this package
+//View engine setup
+  //using express-handlebars package; expressHbs() executes the package, object inside configures the template engine
+  //default layout will search for layout.hbs; extname is to keep all extensions .hbs, not .handlebars (which is the default ext name for this package)
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
 // change 'hbs' to '.hbs' to refer to new engine
 app.set('view engine', '.hbs');
@@ -54,10 +50,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//req.locals - global varable
-//login - referenced in header.hbs
+
 app.use(function(req, res, next) {
-  res.locals.login = req.isAuthenticated();
+  res.locals.login = req.isAuthenticated(); //req.locals - global varable; login referenced in header.hbs
   res.locals.session = req.session;
   next();
 });

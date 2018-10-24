@@ -1,16 +1,17 @@
-<!-- Sign Up Page -->
-<!-- CSRF - protection session can't get stolen -->
+<!-- * User Sign Up Page * -->
+
+<!-- CSRF - protection so that the session can't get stolen -->
 <div class="row">
   <div class="col m4 col md offset 4">
     <h1>Sign Up</h1>
     {{#if hasErrors}}
       <div class="alert danger">
-        {{# each messages }}
-        <p>{{this}}</p>
+        {{# each messages }} <!-- messages is a obj key from user.js, line 49 -->
+          <p>{{this}}</p> <!-- print the messgae -->
         {{/each}}
       </div>
     {{/if}}
-    <form class="" action="/user/signup" method="post">
+    <form class="" action="/user/signup" method="post"> <!-- action links the url-->
       <div class="form-group">
         <label for="email">Email</label>
         <input type="text" name="email" id="email" value="" class="form-control">
@@ -19,9 +20,9 @@
         <label for="password">Password</label>
         <input type="password" name="password" id="password" value="" class="form-control">
       </div>
+      <!-- sends the session token which allows server to identify browser & user correspond together-->
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <button type="submit" name="button" class="btn btn-primary">Sign Up</button>
-      <!-- sends the session token which allows server to identify browser & user correspond together-->
     </form>
   </div>
 </div>

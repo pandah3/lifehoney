@@ -1,3 +1,5 @@
+/* User account model */
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
@@ -13,6 +15,7 @@ var userSchema = new Schema ({
 
 
 //Sign up
+
 // Creating an encrypted password & then returning it
 //return hashed password using bcrypt then synchronous hashing with hashSync,
 //passing the password, then generating the salt & passing 5 rounds of salt creation

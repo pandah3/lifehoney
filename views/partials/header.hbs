@@ -1,9 +1,9 @@
-<!-- Navbar
-on separate page b/c you want navbar to show on every page-->
+<!-- * Navbar *-->
+<!-- on a separate page b/c you want the navbar to show on every page-->
 {{#each language}}
 
 <div class="navbar-fixed">
-  <!-- Product Dropdown for Nav bar (place above nav tag) -->
+  <!-- Product Dropdown Menu for Nav bar (place above nav tag) -->
   <ul id="dropdown" class="dropdown-content">
     <li><a href="#honey">{{this.honey}}</a></li>
     <li class="divider"></li>
@@ -18,10 +18,11 @@ on separate page b/c you want navbar to show on every page-->
     <div class="container">
       <div class="nav-wrapper">
         <a href="#" class="brand-logo center grey-text text-darken-2">{{this.title}}</a>
-        <!-- Set side menu bar w/ code below -->
+        <!-- Sidenav menu bar (only visible when collapsed to tablet or mobile size)-->
          <a href="#" data-target="mobile-nav" class="sidenav-trigger">
            <i id="menu" class="material-icons">menu</i>
          </a>
+         <!-- Left side menu bar -->
          <ul class="left side-main-nav">
            <li>
              <a class="grey-text text-darken-2" href="./en">{{this.english}}</a>
@@ -37,7 +38,7 @@ on separate page b/c you want navbar to show on every page-->
          <!-- Lists menu on top, to the R of the brand-logo (class="right")
         Class hide-on-med~~ means hide the menu bar on screen size medium and below  -->
          <ul class="right side-main-nav hide-on-med-and-down">
-           {{#if ../login }}
+           {{#if ../login }} <!-- login refers to req.locals.login from app.js, line 60-->
             <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile"><i class="fa fa-user" aria-hidden="true"></i> {{this.my_account}}</a></li>
             <li><a class="waves-effect waves-light btn blue darken-3" href="/user/logout">{{this.log_out}}</a></li>
            {{ else }}
@@ -57,6 +58,7 @@ on separate page b/c you want navbar to show on every page-->
          </ul>
       </div>
 
+      <!-- Main Navbar -->
       <div class="nav-content">
       <ul class="tabs tabs-transparent">
         <li class="tab">
@@ -76,7 +78,6 @@ on separate page b/c you want navbar to show on every page-->
         </li>
       </ul>
     </div>
-
     </div>
   </nav>
 </div>
@@ -105,13 +106,4 @@ on separate page b/c you want navbar to show on every page-->
        </li>
      </ul>
 
-  <div id="test1" class="col s12">Test 1</div>
-  <div id="test2" class="col s12">Test 2</div>
-
 {{/each}}
-
-
-
-
-     <!-- <div id="test1" class="col s12">Test 1</div>
-      <div id="test2" class="col s12">Test 2</div> -->

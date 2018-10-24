@@ -1,15 +1,14 @@
 var express = require('express');
-var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
+var router = express.Router(); //included in npm
+var MongoClient = require('mongodb').MongoClient; //connect to database (mLab)
 var mongoose = require('mongoose');
-var ObjectId = require('mongodb').ObjectID;
-//this will configure the .env fil
-require('dotenv').config();
-var async = require('async');
+var ObjectId = require('mongodb').ObjectID; //find by object id
+require('dotenv').config(); //configure the .env fil
+var async = require('async'); //access multiple collections through 1 crud method
 
 var Cart = require('../models/cart');
 var Product = require('../models/product');
-var Order =require('../models/order');
+var Order = require('../models/order');
 
 var db
 MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true }, (err, database) => {
@@ -19,30 +18,30 @@ MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.D
 
 // mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true });
 
-/* GET home page. */
-// the :language*? allows for a value to be assinged to language. the : followed by any word allows
-// for data being passed through the header to be retrieved by using req.params.CORRESPONDINGWORD.
+/* GET home page */
+// the :language*? allows for a value to be assigned to language. the : followed by any word allows
+// for data being passed through the header to be retrieved by using req.params.CORRESPONDINGWORD
 router.get('/:language?', function(req, res, next) {
   var successMsg = req.flash('success')[0];
   var languageCode = req.params.language;
-  // languageCode is undefined when there isn't a value being passed in, in the header so we set it
-  // to 'ko' for english so that korean is our default language.
+  // languageCode is undefined when there isn't a value being passed in the header so we set it
+  // to 'ko' so that korean is our default language.
   if (languageCode === undefined) {
     languageCode = 'ko'
   }
 
-  var locals = {
+  var locals = { //data that's passed along to the index.hbs when running async
     languageCode: languageCode,
     successMsg: successMsg,
     noMessage: !successMsg
   };
 
-  var task = [
+  var task = [ //async task
     function(callback) {
       db.collection('languages').find({'languageCode': languageCode}).toArray(function (err, result) {
         if (err) return console.log(err);
         // console.log(result);
-        locals.language = result;
+        locals.language = result; //adding to the locals object to pass to index.hbs
         callback();
       });
     },
@@ -50,7 +49,7 @@ router.get('/:language?', function(req, res, next) {
       db.collection('products').find().toArray(function (err, result) {
         if (err) return console.log(err);
         // console.log(result);
-        locals.products = result;
+        locals.products = result; //adding to the locals object to pass to index.hbs
         callback();
       });
     }
@@ -58,17 +57,17 @@ router.get('/:language?', function(req, res, next) {
 
   async.parallel(task, function(err) {
     if (err) return next();
-    res.render('index', locals)
+    res.render('index', locals) //render index.hbs
     })
   });
 
 
-//GET Add to Cart
+/* GET Add to Cart */
 router.get('/add-to-cart/:id', function(req, res, next) {
   var productId = req.params.id;
   console.log(productId);
   //passing in old cart if you have one
-  //ternary expression: if the old cart does exist, pass the old cart, if not, pass an empty object
+  //ternary expression: if an old cart exists, pass the old cart, if not, pass an empty object
   var cart = new Cart(req.session.cart ? req.session.cart : {});
   db.collection('products').findOne({'_id': ObjectId(req.params.id)}, function(err, product) {
     if (err) {
@@ -76,7 +75,7 @@ router.get('/add-to-cart/:id', function(req, res, next) {
       console.log(err);
     }
     console.log(product._id);
-    cart.add(product, product._id);
+    cart.add(product, product._id); //.add is a function in cart.js
     req.session.cart = cart;
     console.log(req.session.cart);
     res.redirect('/')
@@ -84,19 +83,20 @@ router.get('/add-to-cart/:id', function(req, res, next) {
 });
 
 
-//GET Shopping Cart
+/* GET Shopping Cart - display shopping cart */
 router.get('/shopping/cart/', function(req, res, next) {
+  //if there's nothing in cart, render "no items in cart" from shopping-cart.hbs
   if (!req.session.cart) {
     //going into views directory, then shop directory, then shopping-cart.hbs
     return res.render('shop/shopping-cart', {products: null});
   }
   var cart = new Cart(req.session.cart);
-  //going into views directory, then shop directory, then shopping-cart.hbs
+  //generateArray is from cart.js
   res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
 
-//GET Reduce- Reduce Qty of Items in Cart
+/* GET Reduce- Reduce Qty of Items in Cart */
 router.get('/reduce/:id', function(req, res, next) {
   var productId = req.params.id;
   var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -106,7 +106,7 @@ router.get('/reduce/:id', function(req, res, next) {
   res.redirect('/shopping/cart/');
 });
 
-//GET Remove- Remove Item(s) in Cart
+/* GET Remove- Remove Item(s) in Cart */
 router.get('/remove/:id', function(req, res, next) {
   var productId = req.params.id;
   var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -117,19 +117,20 @@ router.get('/remove/:id', function(req, res, next) {
 });
 
 
-//Checkout Routes
-  //GET Checkout
-router.get('/cart/checkout', isLoggedIn, function(req, res, next) {
+/* Checkout Routes */
+  /* GET Checkout */
+router.get('/cart/checkout', isLoggedIn, function(req, res, next) { //isLoggedIn is @ bottom of this page
   if (!req.session.cart) {
     return res.redirect('/shopping/cart');
   }
   var cart = new Cart(req.session.cart);
   //overriding error message from stripe and creating our own error message
   var errMsg = req.flash('error')[0];
-  res.render('shop/checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+  //views > shop > checkout.hbs | errorMsg- from checkout.hbs; errMsg is the variable
+  res.render('shop/checkout', {total: cart.totalPrice, errorMsg: errMsg, noError: !errMsg});
 });
 
-  //POST Checkout
+  /* POST Checkout */
 router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
   if (!req.session.cart) {
     return res.redirect('/shopping/cart');
@@ -143,13 +144,13 @@ router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
     // amount is shown in cents (so 2000 = $20)
     amount: cart.totalPrice * 100,
     currency: "usd",
-    source: req.body.stripeToken, // obtained with Stripe.js
+    source: req.body.stripeToken, // obtained with checkout.js
     description: "Test Charge"
   }, function(err, charge) {
 
   // asynchronously called (function called when done)
     if (err) {
-      req.flash('error', err.message);
+      req.flash('error', err.message); //err.message is a stripe function
       return res.redirect('/cart/checkout');
     }
 
@@ -179,10 +180,10 @@ router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) { //isAuthenticated is a passport function
     return next();
   }
   //in case they are not logged in
-  req.session.oldUrl = req.url;
+  req.session.oldUrl = req.url; //stores current url then redirects you back there after you login/signup
   res.redirect('/user/login');
 }
