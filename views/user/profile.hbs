@@ -1,11 +1,10 @@
-<!-- User Profile -->
+<!-- * User Profile Page * -->
 <div class="row">
   <div class="col m8 offset-m2">
     <h1>User Profile</h1>
     <hr>
+    <!-- Display Orders  -->
     <h2>My Orders</h2>
-
-<!-- Display Orders -->
     <!-- each card is 1 order -->
     {{# each order }}
       <div class="row">
@@ -14,12 +13,10 @@
             <div class="card-content">
               <strong>Order #:</strong>
               <ul class="collection">
-                <!-- looping through all items in current order -->
-                {{# each this.items }}
+                {{# each this.items }} <!-- looping through all items in current order -->
                   <li class="collection-item">
-                    <!-- this.price, qty, title all from models/cart.js -->
-                    <span class="badge"> ${{ this.price }}</span>
                     {{ this.item.title }} | Qty: {{ this.qty }}
+                    <span class="badge"> ${{ this.price }}</span> <!-- this.price, qty, title all from models/cart.js -->
                   </li>
                 {{/each}}
               </ul>

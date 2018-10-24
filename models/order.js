@@ -1,3 +1,5 @@
+/* Order Checkout Model */
+
 //Mongoose model
 
 var mongoose = require('mongoose');

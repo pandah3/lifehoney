@@ -1,9 +1,10 @@
+/* Product Page - Add new products here */
 //1 seeder per model
+
 require('dotenv').config();
 
 //dont need to specify product.js b/c within same js files
 var Product = require('../models/product')
-
 //manually connecting to mongoose
 var mongoose = require('mongoose');
 
@@ -65,20 +66,13 @@ var products = [
   title: 'Sugar',
   description: 'testing',
   price: 12
-  }),
+  })
 ];
 
 //store all products in database
-//save method w mongoose allows you to save model to database
-//mongoose creates new collection, then saves new document/entry
-
-//- can't disconnect outside of for loop b/c mongoose will most likely disconnect before the for loop is run b/c
-//saving is asynchronous
-//- can't disconnect within a function within save b/c then it will disconnect every time the loop runs
-
 var done = 0;
 for (var i = 0; i < products.length; i++) {
-  products[i].save(function(err, result) {
+  products[i].save(function(err, result) { //save method w mongoose allows you to save model to database
     done++;
     if (done === products.length) {
       exit();
@@ -86,6 +80,8 @@ for (var i = 0; i < products.length; i++) {
   });
 }
 
+//can't disconnect outside of for loop b/c mongoose will most likely disconnect before
+//the for loop is run (b/c saving is asynchronous)
 function exit() {
   mongoose.disconnect();
 }
