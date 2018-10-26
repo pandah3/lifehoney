@@ -15,56 +15,65 @@ mongoose.connect('mongodb://<username>:<password>@ds145072.mlab.com:45072/lifeho
 var products = [
   new Product({
   imagePath: 'images/propolis.png',
-  title: 'Propolis',
+  title: 'Propolis Tincture',
   description: 'testing',
+  category: 'propolis',
   price: 12
   }),
   new Product({
   imagePath: 'images/salt.jpg',
   title: 'Salt',
   description: 'testing',
+  category: 'salt',
   price: 12
   }),
   new Product({
   imagePath: 'images/propolis2.png',
-  title: 'Propolis',
+  title: 'Raw Propolis',
   description: 'testing',
+  category: 'propolis',
   price: 12
   }),
   new Product({
   imagePath: 'images/dentalsalt.jpg',
   title: 'Dental Salt',
   description: 'testing',
+  category: 'salt',
   price: 12
   }),
   new Product({
   imagePath: 'images/honey.jpg',
-  title: 'Honey',
+  title: '100% Pure Honey',
   description: 'testing',
+  category: 'honey',
   price: 12
   }),
   new Product({
   imagePath: 'images/honey1.jpg',
   title: 'Honey',
   description: 'testing',
+  category: 'honey',
   price: 12
   }),
   new Product({
   imagePath: 'images/powder.png',
-  title: 'Honey',
+  title: 'Mistletoe Powder',
   description: 'testing',
+  category: 'mistletoe',
   price: 12
   }),
   new Product({
   imagePath: 'images/pills.png',
-  title: 'Honey',
+  title: 'Mistletoe Pills',
   description: 'testing',
+  category: 'mistletoe',
   price: 12
   }),
   new Product({
   imagePath: 'images/sugar.jpg',
   title: 'Sugar',
   description: 'testing',
+  category: 'salt',
   price: 12
   })
 ];
