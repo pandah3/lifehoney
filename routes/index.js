@@ -46,7 +46,7 @@ router.get('/:language?', function(req, res, next) {
       });
     },
     function(callback) {
-      db.collection('products').find().toArray(function (err, result) {
+      db.collection('products').find().toArray(function(err, result) {
         if (err) return console.log(err);
         // console.log(result);
         locals.products = result; //adding to the locals object to pass to index.hbs
@@ -60,6 +60,24 @@ router.get('/:language?', function(req, res, next) {
     res.render('index', locals) //render index.hbs
     })
   });
+
+/* GET Products (Shop & Categories)*/
+router.get('/shop/:category?', function(req, res, next) {
+  var category = req.params.category;
+
+  if (category === 'all') {
+    db.collection('products').find().toArray(function(err, result) {
+      if (err) return console.log(err);
+      res.render('shop/shop-all', {allproducts: result});
+    });
+  } else {
+    //'category' refers to mlab; category (no quotes) refers to the variable
+    db.collection('products').find({'category': category}).toArray(function(err, result) {
+      if (err) return console.log(err);
+      res.render('shop/categories', {allproducts: result});
+    });
+  }
+})
 
 
 /* GET Add to Cart */
@@ -78,7 +96,8 @@ router.get('/add-to-cart/:id', function(req, res, next) {
     cart.add(product, product._id); //.add is a function in cart.js
     req.session.cart = cart;
     console.log(req.session.cart);
-    res.redirect('/')
+    // res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'); //cache clearing headers
+    res.redirect('back'); //back = req.get('Referrer');
   });
 });
 

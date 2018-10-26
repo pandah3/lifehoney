@@ -1,17 +1,17 @@
 <!-- * Navbar *-->
 <!-- on a separate page b/c you want the navbar to show on every page-->
-{{#each language}}
 
+{{#each language}}
 <div class="navbar-fixed">
   <!-- Product Dropdown Menu for Nav bar (place above nav tag) -->
   <ul id="dropdown" class="dropdown-content">
-    <li><a href="#honey">{{this.honey}}</a></li>
+    <li class="black"><a href="/shop/honey">{{this.honey}}</a></li>
     <li class="divider"></li>
-    <li><a href="#mistletoe">{{this.mistletoe}}</a></li>
+    <li class="black"><a href="/shop/mistletoe">{{this.mistletoe}}</a></li>
     <li class="divider"></li>
-    <li><a href="#pinksalt">{{this.pink_salt}}</a></li>
+    <li class="black"><a href="/shop/salt">{{this.pink_salt}}</a></li>
     <li class="divider"></li>
-    <li><a href="#propolis">{{this.propolis}}</a></li>
+    <li class="black"><a href="/shop/propolis">{{this.propolis}}</a></li>
   </ul>
 
   <nav class="white nav-extended">
@@ -51,7 +51,7 @@
            {{/if}}
            <li>
              <a class="grey-text text-darken-2" href="/shopping/cart/">
-               <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{this.my_cart}}
+               <i class="fa fa-shopping-cart cart-navbar" aria-hidden="true"></i> {{this.my_cart}}
                <span class="new badge">{{../session.cart.totalQty}}</span>
              </a>
            </li>
@@ -65,10 +65,10 @@
           <a class="grey-text text-darken-2" href="#home">HOME</a>
         </li>
         <li class="tab">
-          <a class="grey-text text-darken-2" href="#shop">SHOP</a>
+          <a class="grey-text text-darken-2" href="/shop/all">SHOP</a>
         </li>
         <li class="tab">
-          <a class="dropdown-trigger grey-text text-darken-2" href="#products" data-target="dropdown">CATEGORIES<i class="ar material-icons right">arrow_drop_down</i></a>
+          <a class="dropdown-trigger grey-text text-darken-2" data-target="dropdown">CATEGORIES<i class="ar material-icons right">arrow_drop_down</i></a>
         </li>
         <li class="tab">
           <a class="grey-text text-darken-2" href="#about">ABOUT US</a>
@@ -105,5 +105,4 @@
          <a href="#account">LOG IN/SIGN UP</a>
        </li>
      </ul>
-
 {{/each}}
