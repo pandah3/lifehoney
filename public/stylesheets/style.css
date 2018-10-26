@@ -26,9 +26,24 @@ nav {
   color: black;
 }
 
-.fa-user, .fa-shopping-cart {
+.fa-user, .cart-navbar {
   font-size: 12px;
 }
+
+.cart-list {
+  height: 100px;
+}
+
+.shopall {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  .shopall {
+    padding-left: 0;
+  }
+}
+
 
 /* img.responsive-img {
   max-width: 100%;
