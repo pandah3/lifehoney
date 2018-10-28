@@ -74,10 +74,10 @@ router.get('/shop/:category?', function(req, res, next) {
     //'category' refers to mlab; category (no quotes) refers to the variable
     db.collection('products').find({'category': category}).toArray(function(err, result) {
       if (err) return console.log(err);
-      res.render('shop/categories', {allproducts: result});
+      res.render('shop/categories', {categories: result, categoryTitle: category});
     });
   }
-})
+});
 
 
 /* GET Add to Cart */

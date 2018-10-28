@@ -3,19 +3,20 @@
 <!-- Side menu bar -->
 <ul id="slide-out" class="sidenav sidenav-fixed">
   <!-- <li><strong>SHOP</strong></li> -->
-    <li class="center"><strong>SHOP</strong></li>
+    <li class="center"><a href="/"><i class="fas fa-home"></i></a></li>
     <li><a href="/shop/honey">HONEY</a></li>
     <li><a href="/shop/mistletoe">MISTLETOE</a></li>
     <li><a href="/shop/salt">SALT</a></li>
     <li><a href="/shop/propolis">PROPOLIS</a></li>
+    <li><a href="/shop/all">SHOP ALL</a></li>
 </ul>
 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
 <!-- Products -->
 <div class="row center shopall">
- <h3>CATEGORIES</h3>
+ <h3 class="category-title">{{categoryTitle}}</h3>
  <!-- hashtag indicates a block statement; the each loop loops through all the products -->
- {{# each allproducts}}
+ {{# each categories}}
    <div class="container">
      <div class="col s12 m4">
        <div class="card medium">
