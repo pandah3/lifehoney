@@ -1,28 +1,30 @@
 <!-- * Log In Page * -->
 <!-- CSRF - protection so the session can't get stolen -->
-<div class="row">
+<div class="row login-page">
   <div class="col m4 col md offset 4">
-    <h1>Log In</h1>
-    {{#if hasErrors}}
+    {{# each language }}
+    <h1>{{this.log_in}}</h1>
+    {{#if ../hasErrors}}
       <div class="alert danger">
-        {{# each messages }}
+        {{# each ../messages }}
          <p>{{this}}</p> <!--print the error message -->
         {{/each}}
       </div>
     {{/if}}
     <form class="" action="/user/login" method="post">
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{this.email}}</label>
         <input type="text" name="email" id="email" class="form-control">
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{this.password}}</label>
         <input type="password" name="password" id="password" class="form-control">
       </div>
       <!-- sends the csrf token which allows server to identify browser & user correspond together-->
-      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-      <button type="submit" name="button" class="btn btn-primary">Log In</button>
+      <input type="hidden" name="_csrf" value="{{ ../csrfToken }}">
+      <button type="submit" name="button" class="btn btn-primary">{{this.log_in}}</button>
     </form>
-    <p>Don't have an account? <a href="/user/signup">Sign up here!</a></p>
+    <p>{{this.no_account}} <a href="/user/signup">{{this.sign_up_here}}</a></p>
+    {{/each}}
   </div>
 </div>

@@ -38,7 +38,7 @@ router.get('/:language?', function(req, res, next) {
 
   var task = [ //async task
     function(callback) {
-      db.collection('languages').find({'languageCode': languageCode}).toArray(function (err, result) {
+      db.collection('languages').find({'languageCode': languageCode, 'page': 'index'}).toArray(function (err, result) {
         if (err) return console.log(err);
         // console.log(result);
         locals.language = result; //adding to the locals object to pass to index.hbs
@@ -48,6 +48,17 @@ router.get('/:language?', function(req, res, next) {
     function(callback) {
       db.collection('products').find().toArray(function(err, result) {
         if (err) return console.log(err);
+
+        //loop through products, go inside title of a specific product, go inside lang obj & retrieve
+        for(var i in result) { //result = entire array of all products
+          var arr = result[i].title; //get title of current product i is on
+          for(var j in arr){
+            if (j === languageCode){ //languageCode is in another object within title
+              result[i].title = arr[j]; //equal title to lang value
+            }
+          }
+        }
+
         // console.log(result);
         locals.products = result; //adding to the locals object to pass to index.hbs
         callback();
@@ -61,24 +72,66 @@ router.get('/:language?', function(req, res, next) {
     })
   });
 
-/* GET Products (Shop & Categories)*/
-router.get('/shop/:category?', function(req, res, next) {
+/* GET Products (Shop All Page & Categories Page)*/
+router.get('/shop/:category?/:language?', function(req, res, next) {
+  var languageCode = req.params.language;
   var category = req.params.category;
 
-  if (category === 'all') {
-    db.collection('products').find().toArray(function(err, result) {
-      if (err) return console.log(err);
-      res.render('shop/shop-all', {allproducts: result});
-    });
-  } else {
-    //'category' refers to mlab; category (no quotes) refers to the variable
-    db.collection('products').find({'category': category}).toArray(function(err, result) {
-      if (err) return console.log(err);
-      res.render('shop/categories', {categories: result, categoryTitle: category});
-    });
+  if (languageCode === undefined) {
+    languageCode = 'ko';
+  };
+
+  var locals = {
+    languageCode: languageCode
   }
+
+  var task = [
+    function(callback) {
+      db.collection('languages').find({'languageCode': languageCode, 'page': 'shop-all'}).toArray(function(err, result) {
+        if (err) return console.log(err);
+        locals.language = result;
+        callback();
+      })
+    },
+    function(callback) {
+      //Shop All
+      if (category === 'all') {
+        db.collection('products').find().toArray(function(err, result) {
+          if (err) return console.log(err);
+          locals.allproducts = result;
+          callback();
+        });
+      //Category
+      } else {
+       //'category' refers to mlab; category (no quotes) refers to the variable
+       db.collection('products').find({'category': category}).toArray(function(err, result) {
+         if (err) return console.log(err);
+         locals.categories = result;
+         locals.categoryTitle = category;
+         callback();
+       });
+     }
+    }
+  ];
+
+  async.parallel(task, function(err) {
+    if (err) return next();
+
+    if (category === 'all') {
+      res.render('shop/shop-all', locals);
+    } else {
+      res.render('shop/categories', locals);
+    }
+  });
 });
 
+/* GET Single Product Page */
+router.get('/product/:id', function(req, res, next) {
+  db.collection('products').find({'_id': ObjectId(req.params.id)}).toArray(function(err, result) { //can't use finOne & toArray together
+    if (err) return console.log(err);
+    res.render('shop/product-page', {product: result});
+  });
+});
 
 /* GET Add to Cart */
 router.get('/add-to-cart/:id', function(req, res, next) {

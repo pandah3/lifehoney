@@ -5,13 +5,13 @@
 <div class="navbar-fixed">
   <!-- Product Dropdown Menu for Nav bar (place above nav tag) -->
   <ul id="dropdown" class="dropdown-content">
-    <li class="black"><a href="/shop/honey">{{this.honey}}</a></li>
+    <li class="black"><a href="/shop/honey/{{languageCode}}">{{this.honey}}</a></li>
     <li class="divider"></li>
-    <li class="black"><a href="/shop/mistletoe">{{this.mistletoe}}</a></li>
+    <li class="black"><a href="/shop/mistletoe/{{languageCode}}">{{this.mistletoe}}</a></li>
     <li class="divider"></li>
-    <li class="black"><a href="/shop/salt">{{this.pink_salt}}</a></li>
+    <li class="black"><a href="/shop/salt/{{languageCode}}">{{this.pink_salt}}</a></li>
     <li class="divider"></li>
-    <li class="black"><a href="/shop/propolis">{{this.propolis}}</a></li>
+    <li class="black"><a href="/shop/propolis/{{languageCode}}">{{this.propolis}}</a></li>
   </ul>
 
   <nav class="white nav-extended">
@@ -39,14 +39,14 @@
         Class hide-on-med~~ means hide the menu bar on screen size medium and below  -->
          <ul class="right side-main-nav hide-on-med-and-down">
            {{#if ../login }} <!-- login refers to req.locals.login from app.js, line 60-->
-            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile"><i class="fa fa-user" aria-hidden="true"></i> {{this.my_account}}</a></li>
+            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile/{{languageCode}}"><i class="fa fa-user" aria-hidden="true"></i> {{this.my_account}}</a></li>
             <li><a class="waves-effect waves-light btn blue darken-3" href="/user/logout">{{this.log_out}}</a></li>
            {{ else }}
            <li>
-             <a class="grey-text text-darken-2" href="/user/login"><i class="fa fa-user" aria-hidden="true"></i> {{this.log_in}}</a>
+             <a class="grey-text text-darken-2" href="/user/login/{{languageCode}}"><i class="fa fa-user" aria-hidden="true"></i> {{this.log_in}}</a>
            </li>
            <li>
-             <a class="grey-text text-darken-2" href="/user/signup">{{this.sign_up}}</a>
+             <a class="grey-text text-darken-2" href="/user/signup/{{languageCode}}">{{this.sign_up}}</a>
            </li>
            {{/if}}
            <li>
@@ -62,10 +62,10 @@
       <div class="nav-content">
       <ul class="tabs tabs-transparent">
         <li class="tab">
-          <a class="grey-text text-darken-2" href="#home">HOME</a>
+          <a class="grey-text text-darken-2" href="/">HOME</a>
         </li>
         <li class="tab">
-          <a class="grey-text text-darken-2" href="/shop/all">SHOP</a>
+          <a class="grey-text text-darken-2" href="/shop/all/{{languageCode}}">SHOP</a>
         </li>
         <li class="tab">
           <a class="dropdown-trigger grey-text text-darken-2" data-target="dropdown">CATEGORIES<i class="ar material-icons right">arrow_drop_down</i></a>

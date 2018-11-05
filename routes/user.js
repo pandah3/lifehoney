@@ -11,23 +11,56 @@ var passport = require('passport');
 var Cart = require('../models/cart');
 var Order = require('../models/order');
 
+var db
+MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true }, (err, database) => {
+  if (err) return console.log(err)
+  db = database.db('lifehoney')
+});
+
 var csrfProtection = csrf();
 router.use(csrfProtection); //all the routes below used by router is protected by csrf
 
 
 /* GET User Profile */
-router.get('/profile', isLoggedIn, function(req, res, next) {
-  //Show user's orders if there are any
-  Order.find({user: req.user}, function(err, orders) {
-    if (err) {
-      return res.write('Sorry, there were no orders found');
+router.get('/profile/:language?', isLoggedIn, function(req, res, next) {
+  var languageCode = req.params.language;
+  if (languageCode === undefined) {
+    languageCode = 'ko';
+  }
+
+  var locals = {
+    languageCode: languageCode
+  }
+
+  var task = [ //async
+    function(callback) {
+      //Show user's orders if there are any
+      Order.find({user: req.user}, function(err, orders) {
+        if (err) {
+          return res.write('Sorry, there were no orders found');
+        }
+        var cart;
+        orders.forEach(function(order) { //looping through all orders of specific user
+          cart = new Cart(order.cart); //using the cart model to then list the orders like the cart
+          order.items = cart.generateArray();
+        });
+        locals.order = orders;
+        callback();
+      });
+    },
+    function(callback) {
+      db.collection('languages').find({'languageCode': languageCode, 'page': 'profile'}).toArray(function (err, result) {
+        if (err) return console.log(err);
+        // console.log(result);
+        locals.language = result;
+        callback();
+      });
     }
-    var cart;
-    orders.forEach(function(order) { //looping through all orders of specific user
-      cart = new Cart(order.cart); //using the cart model to then list the orders like the cart
-      order.items = cart.generateArray();
-    });
-    res.render('user/profile', { order: orders });
+  ];
+
+  async.parallel(task, function(err) {
+    if (err) return next();
+    res.render('user/profile', locals);
   });
 });
 
@@ -44,9 +77,18 @@ router.use('/', notLoggedIn, function(req, res, next) {
 });
 
 /* GET User Sign Up */
-router.get('/signup', function(req, res, next) {
+router.get('/signup/:language?', function(req, res, next) {
+  var languageCode = req.params.language;
   var message = req.flash('error');
-  res.render('user/signup', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
+
+  if (languageCode === undefined) {
+    languageCode = 'ko';
+  };
+
+  db.collection('languages').find({'languageCode': languageCode, 'page':'signup'}).toArray(function(err, result) {
+    if (err) return console.log(err);
+    res.render('user/signup', {csrfToken: req.csrfToken(), language: result, languageCode: languageCode, messages: message, hasErrors: message.length > 0});
+  })
 });
 
 /* POST User Sign Up */
@@ -64,9 +106,18 @@ router.post('/signup', passport.authenticate('local.signup', { //local signup is
 });
 
 /* GET User Login */
-router.get('/login', function(req, res, next) {
+router.get('/login/:language?', function(req, res, next) {
+  var languageCode = req.params.language;
   var message = req.flash('error');
-  res.render('user/login', {csrfToken: req.csrfToken(), messages: message, hasErrors: message.length > 0});
+
+  if (languageCode === undefined) {
+    languageCode = 'ko';
+  };
+
+  db.collection('languages').find({'languageCode': languageCode, 'page': 'login'}).toArray(function(err, result) {
+    if (err) return console.log(err);
+    res.render('user/login', {csrfToken: req.csrfToken(), language: result, languageCode: languageCode, messages: message, hasErrors: message.length > 0});
+  });
 });
 
 /* POST User Login */
