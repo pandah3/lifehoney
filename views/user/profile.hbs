@@ -1,12 +1,13 @@
 <!-- * User Profile Page * -->
-<div class="row">
+<div class="row user-profile">
   <div class="col m8 offset-m2">
-    <h1>User Profile</h1>
+    {{# each language}}
+    <h1>{{this.my_account}}</h1>
     <hr>
     <!-- Display Orders  -->
-    <h2>My Orders</h2>
+    <h2>{{this.my_orders}}</h2>
     <!-- each card is 1 order -->
-    {{# each order }}
+    {{# each ../order }}
       <div class="row">
         <div class="col s12 m8">
           <div class="card">
@@ -28,6 +29,7 @@
         </div>
       </div>
     {{/each}}
-    <a href="/">Return to home</a>
+    <a href="/">{{this.return_home}}</a>
+    {{/each}}
   </div>
 </div>

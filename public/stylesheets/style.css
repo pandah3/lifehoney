@@ -48,6 +48,35 @@ nav {
   text-transform: uppercase;
 }
 
+.category {
+  text-transform: capitalize;
+}
+
+.products-link {
+  color: black;
+}
+
+.product-page {
+  padding-top: 50px;
+}
+
+.quantity {
+  max-width: 50px;
+}
+
+.product-info {
+  margin-left: 400px;
+  /* padding-left: 200px; */
+}
+
+.product-description, .product-title, .product-price {
+  text-align: left;
+}
+
+.user-profile, .login-page {
+  padding-top: 75px;
+}
+
 /* img.responsive-img {
   max-width: 100%;
   min-width: 100%;
