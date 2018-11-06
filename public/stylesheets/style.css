@@ -8,11 +8,10 @@ ul.nav-center li {
 ul.nav-center.side-main-nav li a {
     display: inline-block;
     /* line-height: 200px; */
-} / */
 
-nav {
+/* nav {
   height: 128px;
-}
+} */
 
 .brand-logo {
   line-height: 100px;
@@ -34,6 +33,7 @@ nav {
   height: 100px;
 }
 
+/* categories & shop all pages - offset content for sidenav*/
 .shopall {
   padding-left: 300px;
 }
@@ -44,6 +44,7 @@ nav {
   }
 }
 
+/* categories pages - uppercase title*/
 .category-title {
   text-transform: uppercase;
 }
@@ -77,6 +78,21 @@ nav {
   padding-top: 75px;
 }
 
+.sidenav {
+  top: 115px;
+}
+
+.size-options {
+  max-width: 200px;
+}
+
+.breadcrumb-bar {
+  margin-top: 50px;
+}
+
+/* .container-product-page {
+  max-width: 2500px;
+} */
 /* img.responsive-img {
   max-width: 100%;
   min-width: 100%;

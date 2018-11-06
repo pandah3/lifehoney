@@ -1,72 +1,80 @@
 <!-- * Single Product Page * -->
 
+{{# each language}}
 <!-- Page Breadcrumbs -->
- {{# each product}}
+ {{# each ../product}}
 <nav>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper breadcrumb-bar">
       <div class="col s12">
-        <a href="/shop/all" class="breadcrumb">Shop All</a>
-        <a href="/shop/{{this.category}}" class="breadcrumb category">{{this.category}}</a>
-        <a href="/product/{{this._id}}" class="breadcrumb">{{this.title}}</a>
+        <a href="/shop/all/{{../languageCode}}" class="breadcrumb">{{../this.shop}}</a>
+        <a href="/shop/{{this.category}}/{{../languageCode}}" class="breadcrumb category">{{../this.categories}}</a>
+        <a href="/product/{{this._id}}/{{../languageCode}}" class="breadcrumb">{{this.title}}</a>
       </div>
     </div>
   </nav>
 
 <!-- Product -->
 <div class="row center product-page">
-   <div class="container">
+   <div class="container container-product-page">
      <div class="col s12 m4">
        <div class="product-image">
-         <img class="responsive-img" src="../{{ this.imagePath }}">
+         <img class="responsive-img" src="../../{{ this.imagePath }}">
        </div>
      </div>
-     <div class="container product-info">
-
-
+     <!-- <div class="container product-info"> -->
        <div class="col s12 m4">
          <div class="content">
            <h4 class="product-title">{{this.title}}</h4>
            <p class="product-price">${{this.price}}</p>
-           <p class="product-description">Description</p>
-  <!-- Size option -->
-  <label>Size:</label>
- <select class="browser-default">
-   <option value="" disabled selected>Choose your option</option>
-   <option value="1">Option 1</option>
-   <option value="2">Option 2</option>
-   <option value="3">Option 3</option>
- </select>
-
- <!-- Quantity option -->
- <label class="left">Quantity:</label>
- <br>
-<select class="browser-default quantity">
-  <option value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="3">4</option>
-  <option value="3">5</option>
-  <option value="3">6</option>
-  <option value="3">7</option>
-  <option value="3">8</option>
-  <option value="3">9</option>
-  <option value="3">10</option>
-</select>
-
-<div class="card-action">
-  <!-- value is what shows on the button -->
-  <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink">Add To Cart</button></a>
-</div>
+           <p class="product-description">캘리포니아 양봉장에서 직접 채취한 100% 천연 토종꿀</p>
          </div>
       </div>
+      <div class="col s12 m4">
+        <div class="product-options-buy">
+        <!-- Size option -->
+        <label class="left">Size:</label>
+        <br />
+       <select class="browser-default size-options">
+         <option value="" disabled selected>Choose your option</option>
+         <option value="1">12 oz</option>
+         <option value="2">32 oz</option>
+         <option value="3">1/2 gallon</option>
+         <option value="3">1 gallon</option>
+       </select>
+
+       <!-- Quantity option -->
+       <label class="left">Quantity:</label>
+       <br>
+      <select class="browser-default quantity">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="3">4</option>
+        <option value="3">5</option>
+        <option value="3">6</option>
+        <option value="3">7</option>
+        <option value="3">8</option>
+        <option value="3">9</option>
+        <option value="3">10</option>
+      </select>
+
+      <br />
+
+      <div class="card-action">
+        <!-- value is what shows on the button -->
+        <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink left">Add To Cart</button></a>
       </div>
+      </div>
+      </div>
+      <!-- </div> -->
       <!-- <div class="col s12 m4">
          <div class="card-action">
            <! value is what shows on the button -->
            <!-- <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink">Add To Cart</button></a>
          </div>
-       </div> --> 
+       </div> -->
      </div>
    </div>
 {{/each}}
 </div>
+{{/each}}

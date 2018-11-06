@@ -3,7 +3,7 @@
 
 {{#each language}}
 <div class="navbar-fixed">
-  <!-- Product Dropdown Menu for Nav bar (place above nav tag) -->
+  <!-- Dropdown Menu for Categories in Nav bar (place above nav tag) -->
   <ul id="dropdown" class="dropdown-content">
     <li class="black"><a href="/shop/honey/{{languageCode}}">{{this.honey}}</a></li>
     <li class="divider"></li>
@@ -15,7 +15,7 @@
   </ul>
 
   <nav class="white nav-extended">
-    <div class="container">
+    <div class="container nav-bar">
       <div class="nav-wrapper">
         <a href="#" class="brand-logo center grey-text text-darken-2">{{this.title}}</a>
         <!-- Sidenav menu bar (only visible when collapsed to tablet or mobile size)-->
@@ -59,22 +59,22 @@
       </div>
 
       <!-- Main Navbar -->
-      <div class="nav-content">
+      <div class="nav-content center">
       <ul class="tabs tabs-transparent">
         <li class="tab">
-          <a class="grey-text text-darken-2" href="/">HOME</a>
+          <a class="grey-text text-darken-2" href="/{{languageCode}}">{{this.home}}</a>
         </li>
         <li class="tab">
-          <a class="grey-text text-darken-2" href="/shop/all/{{languageCode}}">SHOP</a>
+          <a class="grey-text text-darken-2" href="/shop/all/{{languageCode}}">{{this.shop}}</a>
         </li>
         <li class="tab">
-          <a class="dropdown-trigger grey-text text-darken-2" data-target="dropdown">CATEGORIES<i class="ar material-icons right">arrow_drop_down</i></a>
+          <a class="dropdown-trigger grey-text text-darken-2" data-target="dropdown">{{this.categories}}<i class="ar material-icons right">arrow_drop_down</i></a>
         </li>
         <li class="tab">
-          <a class="grey-text text-darken-2" href="#about">ABOUT US</a>
+          <a class="grey-text text-darken-2" href="#about">{{this.about_us}}</a>
         </li>
         <li class="tab">
-          <a class="grey-text text-darken-2" href="#contact">CONTACT</a>
+          <a class="grey-text text-darken-2" href="#contact">{{this.contact}}</a>
         </li>
       </ul>
     </div>
