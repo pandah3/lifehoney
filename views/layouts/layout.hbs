@@ -33,10 +33,11 @@
 
 
 <!-- JavaScript at end of body for optimized loading -->
-  <!-- Materialize -->
+
+<!-- Materialize -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 
-<!-- Materialize scripts -->
+<!-- * Materialize scripts * -->
   <!-- Sidenav bar-->
  <script type="text/javascript">
    // Initialize the sidenav plugin in Javascript for the sidenav menu to show when you click the side menu icon
@@ -58,6 +59,15 @@
    //Dropdown trigger
    const dropDown = document.querySelector(".dropdown-trigger");
    M.Dropdown.init(dropDown, {});
+
+   //Select (Option Fields)
+   const select = document.querySelector(".size-options");
+   M.Select.init(select, {});
+
+   //Select (Option Fields)
+   const selectQty = document.querySelector(".quantity-options");
+   M.Selectqty.init(selectQty, {});
+
    </script>
   </body>
 </html>
