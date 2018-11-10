@@ -9,21 +9,21 @@
     <li class="divider"></li>
     <li class="black"><a href="/shop/mistletoe/{{languageCode}}">{{this.mistletoe}}</a></li>
     <li class="divider"></li>
-    <li class="black"><a href="/shop/salt/{{languageCode}}">{{this.pink_salt}}</a></li>
+    <li class="black"><a href="/shop/salt/{{languageCode}}">{{this.salt}}</a></li>
     <li class="divider"></li>
     <li class="black"><a href="/shop/propolis/{{languageCode}}">{{this.propolis}}</a></li>
   </ul>
 
   <nav class="white nav-extended">
-    <div class="container nav-bar">
+    <div class="nav-bar">
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo center grey-text text-darken-2">{{this.title}}</a>
+        <a href="/" class="brand-logo center grey-text text-darken-2">{{this.title}}</a>
         <!-- Sidenav menu bar (only visible when collapsed to tablet or mobile size)-->
-         <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+         <!-- <a href="#" data-target="mobile-nav" class="sidenav-trigger">
            <i id="menu" class="material-icons">menu</i>
-         </a>
+         </a> -->
          <!-- Left side menu bar -->
-         <ul class="left side-main-nav">
+         <ul class="left side-main-nav hide-on-med-and-down">
            <li>
              <a class="grey-text text-darken-2" href="./en">{{this.english}}</a>
            </li>
@@ -32,6 +32,19 @@
            </li>
            <li>
              <a class="grey-text text-darken-2" href="./ch">{{this.chinese}}</a>
+           </li>
+         </ul>
+
+         <!-- Displays lang icons for media screens (mobile & tablets)-->
+         <ul class="left side-main-nav hide-on-large-only">
+           <li class="lang">
+             <a class="grey-text text-darken-2" href="./en">{{this.english_abb}}</a>
+           </li>
+           <li class="lang">
+             <a class="grey-text text-darken-2" href="./ko">{{this.korean_abb}}</a>
+           </li>
+           <li class="lang-ch">
+             <a class="grey-text text-darken-2" href="./ch">{{this.chinese_abb}}</a>
            </li>
          </ul>
          <!-- Menu (still part of Navbar)-->
@@ -50,8 +63,29 @@
            </li>
            {{/if}}
            <li>
-             <a class="grey-text text-darken-2" href="/shopping/cart/">
+             <a class="grey-text text-darken-2" href="/shopping/cart/{{languageCode}}">
                <i class="fa fa-shopping-cart cart-navbar" aria-hidden="true"></i> {{this.my_cart}}
+               <span class="new badge">{{../session.cart.totalQty}}</span>
+             </a>
+           </li>
+         </ul>
+
+         <!-- Displays profile & cart icons for media screens (mobile & tablets)-->
+         <ul class="right side-main-nav hide-on-large-only">
+           {{#if ../login }} <!-- login refers to req.locals.login from app.js, line 60-->
+            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile/{{languageCode}}"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/logout">{{this.log_out}}</a></li>
+           {{ else }}
+           <li>
+             <a class="grey-text text-darken-2" href="/user/login/{{languageCode}}"><i class="fa fa-user" aria-hidden="true"></i></a>
+           </li>
+           <li>
+             <a class="grey-text text-darken-2" href="/user/signup/{{languageCode}}"></a>
+           </li>
+           {{/if}}
+           <li>
+             <a class="grey-text text-darken-2" href="/shopping/cart/{{languageCode}}">
+               <i class="fa fa-shopping-cart cart-navbar" aria-hidden="true"></i>
                <span class="new badge">{{../session.cart.totalQty}}</span>
              </a>
            </li>
@@ -59,25 +93,27 @@
       </div>
 
       <!-- Main Navbar -->
-      <div class="nav-content center">
-      <ul class="tabs tabs-transparent">
-        <li class="tab">
-          <a class="grey-text text-darken-2" href="/{{languageCode}}">{{this.home}}</a>
-        </li>
-        <li class="tab">
-          <a class="grey-text text-darken-2" href="/shop/all/{{languageCode}}">{{this.shop}}</a>
-        </li>
-        <li class="tab">
-          <a class="dropdown-trigger grey-text text-darken-2" data-target="dropdown">{{this.categories}}<i class="ar material-icons right">arrow_drop_down</i></a>
-        </li>
-        <li class="tab">
-          <a class="grey-text text-darken-2" href="#about">{{this.about_us}}</a>
-        </li>
-        <li class="tab">
-          <a class="grey-text text-darken-2" href="#contact">{{this.contact}}</a>
-        </li>
-      </ul>
-    </div>
+      <div class="container">
+        <div class="navbar-main-tabs center">
+          <ul class="tabs tabs-transparent">
+            <li class="">
+              <a class="grey-text text-darken-2 center" href="/{{languageCode}}">{{this.home}}</a>
+            </li>
+            <li class="">
+              <a class="grey-text text-darken-2 center" href="/shop/all/{{languageCode}}">{{this.shop}}</a>
+            </li>
+            <li class="">
+              <a class="dropdown-trigger grey-text text-darken-2 center" data-target="dropdown">{{this.categories}}<i class="ar material-icons right">arrow_drop_down</i></a>
+            </li>
+            <li class="">
+              <a class="grey-text text-darken-2 center" href="#about">{{this.about_us}}</a>
+            </li>
+            <li class="  ">
+              <a class="grey-text text-darken-2 center" href="#contact">{{this.contact}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </nav>
 </div>
@@ -85,7 +121,7 @@
 <!-- Navbar menu for mobile (sidebar menu) -->
     <!-- **id must match name for data-target up in the a link for the sidenav trigger bar
     Side bar nav won't show unless initialized with JS -->
-    <ul class="sidenav" id="mobile-nav">
+    <!-- <ul class="sidenav" id="mobile-nav">
        <li>
          <a href="#home">HOME</a>
        </li>
@@ -104,5 +140,5 @@
        <li>
          <a href="#account">LOG IN/SIGN UP</a>
        </li>
-     </ul>
+     </ul> -->
 {{/each}}

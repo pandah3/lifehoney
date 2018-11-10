@@ -36,11 +36,13 @@ ul.nav-center.side-main-nav li a {
 /* categories & shop all pages - offset content for sidenav*/
 .shopall {
   padding-left: 300px;
+  padding-top: 25px;
 }
 
 @media only screen and (max-width : 992px) {
   .shopall {
     padding-left: 0;
+    padding-top: 40px;
   }
 }
 
@@ -89,6 +91,25 @@ ul.nav-center.side-main-nav li a {
 .breadcrumb-bar {
   margin-top: 50px;
 }
+
+.navbar-main-tabs {
+  padding-left: 250px;
+}
+
+@media only screen and (max-width : 992px) {
+  .navbar-main-tabs {
+    padding-left: 0;
+  }
+}
+
+.lang {
+  max-width: 50px;
+}
+
+/* .lang-ch {
+  max-width: 50px;
+  text-align: left;
+} */
 
 /* .container-product-page {
   max-width: 2500px;

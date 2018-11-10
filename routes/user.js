@@ -42,6 +42,7 @@ router.get('/profile/:language?', isLoggedIn, function(req, res, next) {
         var cart;
         orders.forEach(function(order) { //looping through all orders of specific user
           cart = new Cart(order.cart); //using the cart model to then list the orders like the cart
+          selectTitleCart(cart.items, languageCode, true);
           order.items = cart.generateArray();
         });
         locals.order = orders;
@@ -150,3 +151,21 @@ function notLoggedIn(req, res, next) {
   }
   res.redirect('/');
 }
+
+function selectTitle(value, lang) {
+  for (var i in value) {
+    var title = value[i].title[lang];
+    value[i].title = title;
+  }
+};
+
+function selectTitleCart(value, lang, orders) {
+  for (var i in value) {
+    var title = value[i].item.title[lang];
+    if (orders === true) {
+      value[i].item.title = title;
+    } else {
+      value[i].item.tempTitle = title;
+    }
+  }
+};

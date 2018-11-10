@@ -18,7 +18,7 @@ MongoClient.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.D
 
 // mongoose.connect('mongodb://' + process.env.DB_USERNAME + ':' + process.env.DB_PASSWORD + '@ds145072.mlab.com:45072/lifehoney', { useNewUrlParser: true });
 
-/* GET home page */
+/* GET Homepage */
 // the :language*? allows for a value to be assigned to language. the : followed by any word allows
 // for data being passed through the header to be retrieved by using req.params.CORRESPONDINGWORD
 router.get('/:language?', function(req, res, next) {
@@ -156,14 +156,8 @@ router.get('/product/:id/:language?', function(req, res, next) {
 });
 
 /* GET Add to Cart */
-router.get('/add-to-cart/:id/:language?', function(req, res, next) {
+router.get('/add-to-cart/:id', function(req, res, next) {
   var productId = req.params.id;
-  var languageCode = req.params.language;
-
-  if (languageCode === undefined) {
-    languageCode = 'ko';
-  }
-  
   console.log(productId);
   //passing in old cart if you have one
   //ternary expression: if an old cart exists, pass the old cart, if not, pass an empty object
@@ -173,11 +167,9 @@ router.get('/add-to-cart/:id/:language?', function(req, res, next) {
       return res.redirect('/');
       console.log(err);
     }
-    selectTitle(product, languageCode);
     console.log(product._id);
     cart.add(product, product._id); //.add is a function in cart.js
     req.session.cart = cart;
-    console.log(req.session.cart);
     // res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'); //cache clearing headers
     res.redirect('back'); //back = req.get('Referrer');
   });
@@ -185,15 +177,20 @@ router.get('/add-to-cart/:id/:language?', function(req, res, next) {
 
 
 /* GET Shopping Cart - display shopping cart */
-router.get('/shopping/cart/', function(req, res, next) {
+router.get('/shopping/cart/:language?', function(req, res, next) {
+  var languageCode = req.params.language;
+  if (languageCode === undefined) {
+    languageCode = 'ko';
+  }
+
   //if there's nothing in cart, render "no items in cart" from shopping-cart.hbs
   if (!req.session.cart) {
     //going into views directory, then shop directory, then shopping-cart.hbs
     return res.render('shop/shopping-cart', {products: null});
   }
   var cart = new Cart(req.session.cart);
-  //generateArray is from cart.js
-  res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+  selectTitleCart(cart.items, languageCode);
+  res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice, languageCode: languageCode}); //generateArray is from cart.js
 });
 
 
@@ -289,14 +286,24 @@ function isLoggedIn(req, res, next) {
   res.redirect('/user/login');
 }
 
+/* For item titles in Shop All, Categories, & Single Product Pages */
 //loop through products, go inside title of a specific product, go inside lang obj & retrieve
 function selectTitle(value, lang) {
   for(var i in value) { //result = entire array of all products
-    var arr = value[i].title; //get title of current product i is on
-      for(var j in arr){
-        if (j === lang){ //languageCode is in another object within title
-          value[i].title = arr[j]; //equal title to lang value
-        }
-      }
+    var title = value[i].title[lang]; //get title of current product i is on
+    value[i].title = title;
+  //     for(var j in arr){
+  //       if (j === lang){ //languageCode is in another object within title
+  //         value[i].title = arr[j]; //equal title to lang value
+  //       }
+  //     }
   }
-}
+};
+
+/* For item titles in the Shopping Cart & Orders pages */
+function selectTitleCart(value, lang) {
+  for (var i in value) {
+    var title = value[i].item.title[lang];
+    value[i].item.tempTitle = title;
+  }
+};

@@ -7,7 +7,7 @@
     <div class="nav-wrapper breadcrumb-bar">
       <div class="col s12">
         <a href="/shop/all/{{../languageCode}}" class="breadcrumb">{{../this.shop}}</a>
-        <a href="/shop/{{this.category}}/{{../languageCode}}" class="breadcrumb category">{{../this.categories}}</a>
+        <a href="/shop/{{this.category}}/{{../languageCode}}" class="breadcrumb category">{{this.category}}</a>
         <a href="/product/{{this._id}}/{{../languageCode}}" class="breadcrumb">{{this.title}}</a>
       </div>
     </div>
@@ -32,10 +32,10 @@
       <div class="col s12 m4">
         <div class="product-options-buy">
         <!-- Size option -->
-        <label class="left">Size:</label>
+        <label class="left">{{../this.size_option}}:</label>
         <br />
-       <select class="browser-default size-options">
-         <option value="" disabled selected>Choose your option</option>
+       <select class="browser-default size-options" id="size-options">
+         <option value="" disabled selected>{{../this.choose_option}}</option>
          <option value="1">12 oz</option>
          <option value="2">32 oz</option>
          <option value="3">1/2 gallon</option>
@@ -43,9 +43,9 @@
        </select>
 
        <!-- Quantity option -->
-       <label class="left">Quantity:</label>
+       <label class="left">{{../this.quantity}}:</label>
        <br>
-      <select class="browser-default quantity">
+      <select class="browser-default quantity" id="quantity-options">
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
