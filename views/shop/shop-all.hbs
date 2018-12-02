@@ -5,11 +5,11 @@
 <ul id="slide-out" class="sidenav sidenav-fixed">
   <!-- <li><strong>SHOP</strong></li> -->
     <li class="center"><a href="/"><i class="fas fa-home"></i></a></li>
-    <li><a href="/shop/honey">{{this.honey}}</a></li>
-    <li><a href="/shop/mistletoe">{{this.mistletoe}}</a></li>
-    <li><a href="/shop/salt">{{this.salt}}</a></li>
-    <li><a href="/shop/propolis">{{this.propolis}}</a></li>
-    <li><a href="/shop/all">{{this.shop_all}}</a></li>
+    <li><a href="/shop/honey/{{languageCode}}">{{this.honey}}</a></li>
+    <li><a href="/shop/mistletoe/{{languageCode}}">{{this.mistletoe}}</a></li>
+    <li><a href="/shop/salt/{{languageCode}}">{{this.salt}}</a></li>
+    <li><a href="/shop/propolis/{{languageCode}}">{{this.propolis}}</a></li>
+    <li><a href="/shop/all/{{languageCode}}">{{this.shop_all}}</a></li>
 </ul>
 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
@@ -34,7 +34,7 @@
           </a>
          <div class="card-action">
            <!-- value is what shows on the button -->
-           <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink">Add To Cart</button></a>
+           <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink">{{../add_to_cart}}</button></a>
          </div>
        </div>
      </div>
