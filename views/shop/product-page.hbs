@@ -31,39 +31,42 @@
       </div>
       <div class="col s12 m4">
         <div class="product-options-buy">
-        <!-- Size option -->
-        <label class="left">{{../this.size_option}}:</label>
-        <br />
-       <select class="browser-default size-options" id="size-options">
-         <option value="" disabled selected>{{../this.choose_option}}</option>
-         <option value="1">12 oz</option>
-         <option value="2">32 oz</option>
-         <option value="3">1/2 gallon</option>
-         <option value="3">1 gallon</option>
-       </select>
+          <form action="/add-to-cart/{{this._id}}" method="POST">
+            <!-- Size option -->
+            <label class="left">{{../this.size_option}}:</label>
+            <br />
+           <select name="size" class="browser-default size-options" id="size-option">
+             <option value="" disabled selected>{{../this.choose_option}}</option>
+             <option value="{{this.attributes.size1}}" id="sizeoptt1">{{this.attributes.size1}}</option>
+             <option value="{{this.attributes.size2}}">{{this.attributes.size2}}</option>
+             <!-- <option value="3">1/2 gallon</option>
+             <option value="3">1 gallon</option> -->
+           </select>
 
-       <!-- Quantity option -->
-       <label class="left">{{../this.quantity}}:</label>
-       <br>
-      <select class="browser-default quantity" id="quantity-options">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="3">4</option>
-        <option value="3">5</option>
-        <option value="3">6</option>
-        <option value="3">7</option>
-        <option value="3">8</option>
-        <option value="3">9</option>
-        <option value="3">10</option>
-      </select>
+           <!-- Quantity option -->
+           <label class="left">{{../this.quantity}}:</label>
+           <br>
+          <select name="qty" class="browser-default quantity" id="quantity-options">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4>4</option>
+            <option value=5>5</option>
+            <option value=6>6</option>
+            <option value=7>7</option>
+            <option value=8>8</option>
+            <option value=9>9</option>
+            <option value=10>10</option>
+          </select>
 
-      <br />
+          <br />
 
-      <div class="card-action">
-        <!-- value is what shows on the button -->
-        <a href="/add-to-cart/{{this._id}}"><button type="cart" name="addToCart" value="Add To Cart" class="btn pink left">Add To Cart</button></a>
-      </div>
+          <div class="card-action">
+            <!-- value is what shows on the button -->
+          <button type="submit" class="btn pink left" id="btnsize">Add</button>
+          </div>
+          </form>
+
       </div>
       </div>
       <!-- </div> -->

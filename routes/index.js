@@ -156,9 +156,15 @@ router.get('/product/:id/:language?', function(req, res, next) {
 });
 
 /* GET Add to Cart */
-router.get('/add-to-cart/:id', function(req, res, next) {
+router.post('/add-to-cart/:id', function(req, res, next) {
   var productId = req.params.id;
   console.log(productId);
+  console.log(".......................");
+  console.log(req.body.size);
+  var sizeOptions = req.body.size;
+  console.log(req.body.qty);
+  var quantityOptions = Number(req.body.qty); //qty is from product-page.hbs, <select> name
+  console.log(".......................");
   //passing in old cart if you have one
   //ternary expression: if an old cart exists, pass the old cart, if not, pass an empty object
   var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -168,13 +174,20 @@ router.get('/add-to-cart/:id', function(req, res, next) {
       console.log(err);
     }
     console.log(product._id);
-    cart.add(product, product._id); //.add is a function in cart.js
+    cart.add(product, product._id, quantityOptions, sizeOptions); //.add is a function in cart.js; product._id is from function(err, product)
     req.session.cart = cart;
     // res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'); //cache clearing headers
     res.redirect('back'); //back = req.get('Referrer');
   });
 });
 
+router.post('/info/cart', (req, res) => {
+  console.log(".......................");
+  console.log(req.body.size);
+  console.log(req.body.qty);
+  console.log(".......................");
+  res.redirect('back')
+})
 
 /* GET Shopping Cart - display shopping cart */
 router.get('/shopping/cart/:language?', function(req, res, next) {
@@ -182,6 +195,9 @@ router.get('/shopping/cart/:language?', function(req, res, next) {
   if (languageCode === undefined) {
     languageCode = 'ko';
   }
+  //
+  // console.log(req.body.qty);
+  // var sizeoptions = req.body.sizee;
 
   //if there's nothing in cart, render "no items in cart" from shopping-cart.hbs
   if (!req.session.cart) {
@@ -190,6 +206,7 @@ router.get('/shopping/cart/:language?', function(req, res, next) {
   }
   var cart = new Cart(req.session.cart);
   selectTitleCart(cart.items, languageCode);
+  // selectSizeCart(cart.items, sizeoptions);
   res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice, languageCode: languageCode}); //generateArray is from cart.js
 });
 
@@ -305,5 +322,16 @@ function selectTitleCart(value, lang) {
   for (var i in value) {
     var title = value[i].item.title[lang];
     value[i].item.tempTitle = title;
+  }
+};
+
+function selectSizeCart(value, size) {
+  for(var i in value) { //result = entire array of all products
+    var sizeopt = value[i].item.attributes; //get title of current product i is on
+      for(var j in sizeopt){
+        if (j === size){ //languageCode is in another object within title
+          value[i].size = sizeopt[j]; //equal title to lang value
+        }
+      }
   }
 };
