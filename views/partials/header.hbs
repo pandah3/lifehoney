@@ -30,9 +30,10 @@
            <li>
              <a class="grey-text text-darken-2" href="./ko">{{this.korean}}</a>
            </li>
-           <li>
-             <a class="grey-text text-darken-2" href="./ch">{{this.chinese}}</a>
-           </li>
+           <!-- Uncomment when Mandarin is made available  -->
+           <!-- <li>
+             <a class="grey-text text-darken-2" href="./ch">{ { this.chinese } }</a>
+           </li> -->
          </ul>
 
          <!-- Displays lang icons for media screens (mobile & tablets)-->
@@ -52,7 +53,7 @@
         Class hide-on-med~~ means hide the menu bar on screen size medium and below  -->
          <ul class="right side-main-nav hide-on-med-and-down">
            {{#if ../login }} <!-- login refers to req.locals.login from app.js, line 60-->
-            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile/{{languageCode}}"><i class="fa fa-user" aria-hidden="true"></i> {{this.my_account}}</a></li>
+            <li><a class="waves-effect waves-light btn blue darken-3" href="/user/profile/{{languageCode}}">{{this.my_account}}</a></li>
             <li><a class="waves-effect waves-light btn blue darken-3" href="/user/logout">{{this.log_out}}</a></li>
            {{ else }}
            <li>

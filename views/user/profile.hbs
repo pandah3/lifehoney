@@ -3,6 +3,7 @@
   <div class="col m8 offset-m2">
     {{# each language}}
     <h1>{{this.my_account}}</h1>
+    <p><strong>Email: </strong>{{../user}}</p>
     <hr>
     <!-- Display Orders  -->
     <h2>{{this.my_orders}}</h2>
@@ -29,7 +30,7 @@
         </div>
       </div>
     {{/each}}
-    <a href="/">{{this.return_home}}</a>
+    <a href="/{{languageCode}}">{{this.return_home}}</a>
     {{/each}}
   </div>
 </div>
