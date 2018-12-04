@@ -67,7 +67,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-const server = app.listen(3000, function() {
+const server = app.listen(process.env.Port || 8080, function() {
   console.log('listening on 3000')
 });
 
