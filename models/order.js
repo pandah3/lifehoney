@@ -10,6 +10,7 @@ var schema = new Schema({
   user: {type: Schema.Types.ObjectId, ref:'User'}, //store an id for the user, but behind the scenes,
   // that id is actually connected to the user collection in the user model (in user.js)
   cart: {type: Object, required: true},
+  orderNumber: {type: String, required: true},
   addressStreet: {type: String, required: true},
   addressCity: {type: String, required: true},
   addressState: {type: String, required: true},
