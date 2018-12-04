@@ -45,7 +45,7 @@ module.exports = function Cart(oldCart) {
     delete this.items[id];
     }
 
-/* Changing cart obj to an array so we can list them */
+/* Changing cart obj to an array so we can list the */
   this.generateArray = function() {
     var arr = [];
     for (var id in this.items) {
