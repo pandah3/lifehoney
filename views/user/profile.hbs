@@ -12,11 +12,11 @@
         <div class="col s12 m8">
           <div class="card">
             <div class="card-content">
-              <strong>Order #:</strong>
+              <strong>Order #:</strong> {{this.orderNumber}}
               <ul class="collection">
                 {{# each this.items }} <!-- looping through all items in current order -->
                   <li class="collection-item">
-                    {{ this.item.title }} | Qty: {{ this.qty }}
+                    {{ this.item.title }} | {{this.size}} | Qty: {{ this.qty }}
                     <span class="badge"> ${{ this.price }}</span> <!-- this.price, qty, title all from models/cart.js -->
                   </li>
                 {{/each}}

@@ -122,7 +122,7 @@ router.get('/login/:language?', function(req, res, next) {
 });
 
 /* POST User Login */
-router.post('/login', passport.authenticate('local.login', { //local.login refers to the strategy passport is using; must match passport.js, line 61
+router.post('/login/:language?', passport.authenticate('local.login', { //local.login refers to the strategy passport is using; must match passport.js, line 61
   //if user doesn't get logged in (b/c of an error), run this
   failureRedirect: '/user/login',
   failureFlash: true
@@ -132,8 +132,9 @@ router.post('/login', passport.authenticate('local.login', { //local.login refer
     req.session.oldUrl = null; //clear it
     res.redirect(oldUrl); //then send them back to the oldurl
   } else {
-    res.redirect('/user/profile');
-  }
+    var languageCode = req.params.language
+    res.redirect('/user/profile/' + languageCode);
+  };
 });
 
 module.exports = router;

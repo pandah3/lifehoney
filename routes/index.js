@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID; //find by object id
 require('dotenv').config(); //configure the .env fil
 var async = require('async'); //access multiple collections through 1 crud method
+var uuid = require('uuid');
 
 var Cart = require('../models/cart');
 var Product = require('../models/product');
@@ -80,6 +81,7 @@ router.get('/shop/:category?/:language?', function(req, res, next) {
       db.collection('languages').find({'languageCode': languageCode, 'page': 'shop-all'}).toArray(function(err, result) {
         if (err) return console.log(err);
         locals.language = result; //result is all translated words in languages collection
+        locals.categoryTitle = result[0][category];
         callback();
       })
     },
@@ -99,7 +101,7 @@ router.get('/shop/:category?/:language?', function(req, res, next) {
          if (err) return console.log(err);
          selectTitle(result, languageCode);
          locals.categories = result;
-         locals.categoryTitle = category;
+        //  locals.categoryTitle = category;
          callback();
        });
      }
@@ -156,9 +158,13 @@ router.get('/product/:id/:language?', function(req, res, next) {
 });
 
 /* GET Add to Cart */
-router.get('/add-to-cart/:id', function(req, res, next) {
-  var productId = req.params.id;
-  console.log(productId);
+router.post('/add-to-cart/:id', function(req, res, next) {
+  console.log("...................");
+  console.log(req.body.size);
+  console.log(req.body.qty);
+  console.log("...................");
+  var quantityOptions = Number(req.body.qty);
+  console.log(quantityOptions);
   //passing in old cart if you have one
   //ternary expression: if an old cart exists, pass the old cart, if not, pass an empty object
   var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -167,14 +173,24 @@ router.get('/add-to-cart/:id', function(req, res, next) {
       return res.redirect('/');
       console.log(err);
     }
-    console.log(product._id);
-    cart.add(product, product._id); //.add is a function in cart.js
+    var productId = product._id + '-' + req.body.size;
+    console.log(productId);
+    cart.add(product, productId, quantityOptions, req.body.size); //.add is a function in cart.js
     req.session.cart = cart;
+    console.log(cart);
     // res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'); //cache clearing headers
     res.redirect('back'); //back = req.get('Referrer');
   });
 });
 
+router.get('/add-one-cart/:otherId', (req, res, next) => {
+  var productId = req.params.otherId;
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+  cart.add(null, productId, 1);
+  req.session.cart = cart;
+  res.redirect('back')
+});
 
 /* GET Shopping Cart - display shopping cart */
 router.get('/shopping/cart/:language?', function(req, res, next) {
@@ -182,6 +198,9 @@ router.get('/shopping/cart/:language?', function(req, res, next) {
   if (languageCode === undefined) {
     languageCode = 'ko';
   }
+  var data = {
+    languageCode: languageCode
+  };
 
   //if there's nothing in cart, render "no items in cart" from shopping-cart.hbs
   if (!req.session.cart) {
@@ -190,7 +209,15 @@ router.get('/shopping/cart/:language?', function(req, res, next) {
   }
   var cart = new Cart(req.session.cart);
   selectTitleCart(cart.items, languageCode);
-  res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice, languageCode: languageCode}); //generateArray is from cart.js
+
+  data.products = cart.generateArray();
+  data.totalPrice = cart.totalPrice;
+
+  db.collection('languages').find({'languageCode': languageCode, 'page': 'shopping-cart'}).toArray(function(err, result) {
+    if (err) return console.log(err);
+    data.language = result;
+    res.render('shop/shopping-cart', data)
+  });
 });
 
 
@@ -201,7 +228,7 @@ router.get('/reduce/:id', function(req, res, next) {
 
   cart.reduceByOne(productId);
   req.session.cart = cart;
-  res.redirect('/shopping/cart/');
+  res.redirect('back');
 });
 
 /* GET Remove- Remove Item(s) in Cart */
@@ -256,6 +283,7 @@ router.post('/cart/checkout', isLoggedIn, function(req, res, next) {
     var order = new Order ({
       user: req.user,
       cart: cart,
+      orderNumber: uuid.v4(),
       addressStreet: req.body.addressStreet,
       addressCity: req.body.addressCity,
       addressState: req.body.addressState,

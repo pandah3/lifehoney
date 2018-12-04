@@ -3,7 +3,7 @@
 
 {{# if products}}
 
-<div class="row">
+<div class="row shopping-cart">
   <div class="col s6 m6">
     <h2><i class="fa fa-shopping-cart"></i> SHOPPING CART</h2>
     <ul class="collection">
@@ -11,13 +11,13 @@
       <li class="collection-item cart-list">
         <strong>{{ this.item.tempTitle }}</strong>
         <span class="label label-success">${{ this.price }}</span>
-        <p id="size-options">Size:</p>
+        <p id="size-options">Size: {{this.size}}</p>
         <span class="badge">
-          <a href="/reduce/{{this.item._id}}"><i class="fas fa-minus"></i></a>
+          <a href="/reduce/{{this.otherId}}"><i class="fas fa-minus"></i></a>
           {{ this.qty }}
-          <a href="/add-to-cart/{{this.item._id}}"><i class="fas fa-plus"></i></a>
+          <a href="/add-one-cart/{{this.otherId}}"><i class="fas fa-plus"></i></a>
           <br/><br/>
-          <button type="button" name="button" class="btn white secondary-content"><a href="/remove/{{this.item._id}}">Remove</a></button>
+          <button type="button" name="button" class="btn white secondary-content"><a href="/remove/{{this.otherId}}">Remove</a></button>
         </span>
       </li>
       {{/each}}

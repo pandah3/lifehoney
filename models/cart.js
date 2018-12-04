@@ -9,21 +9,22 @@ module.exports = function Cart(oldCart) {
   this.totalPrice = oldCart.totalPrice || 0;
 
 /* Adding a new product to cart (& checking if product already exists in cart) */
-  this.add = function(item, id) {
+  this.add = function(item, id, quantity, size) {
     var storedItem = this.items[id];
+
     //if the current item you're adding to the cart is not part of the old cart,
     //then make a new item object
     if (!storedItem) {
-      storedItem = this.items[id] = {item: item, qty: 0, price: 0};
+      storedItem = this.items[id] = {item: item, qty: 0, price: 0, size: size, otherId: id};
     }
     //killing 2 birds w/ one stone here:
     //increase the qty of either the new item (if the item wasn't in the cart before)
     //or increase the qty of existing item; same w/ price
-    storedItem.qty++;
+    storedItem.qty += quantity;
     storedItem.price = storedItem.item.price * storedItem.qty;
     //increase total qty of all items in cart; same with price but make it = to the aggrevated prices
-    this.totalQty++;
-    this.totalPrice += storedItem.item.price;
+    this.totalQty += quantity;
+    this.totalPrice += storedItem.item.price * quantity;
   };
 
 /* Reduce qty of item in cart */
