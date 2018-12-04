@@ -16,7 +16,7 @@
               <ul class="collection">
                 {{# each this.items }} <!-- looping through all items in current order -->
                   <li class="collection-item">
-                    {{ this.item.title }} | Qty: {{ this.qty }}
+                    {{ this.item.title }} | {{this.size}} | Qty: {{ this.qty }}
                     <span class="badge"> ${{ this.price }}</span> <!-- this.price, qty, title all from models/cart.js -->
                   </li>
                 {{/each}}
