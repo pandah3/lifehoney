@@ -28,8 +28,11 @@ router.get('/profile/:language?', isLoggedIn, function(req, res, next) {
     languageCode = 'ko';
   }
 
+  console.log(req.user);
+
   var locals = {
-    languageCode: languageCode
+    languageCode: languageCode,
+    user: req.user.email
   }
 
   var task = [ //async
