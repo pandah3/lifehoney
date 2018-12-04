@@ -10,8 +10,8 @@
       {{# each products}}
       <li class="collection-item cart-list">
         <strong>{{ this.item.tempTitle }}</strong>
-        <span class="label label-success">${{ this.singleItemTotal }}</span>
-        <p id="size-options">Size: {{this.size}}</p> <!-- size is referring to cart.js, storedItem = {size:} -->
+        <span class="label label-success">${{ this.singleItemTotal }} | </span> 
+        <span id="size-options">Size: {{this.size}}</span> <!-- size is referring to cart.js, storedItem = {size:} -->
         <span class="badge">
           <a href="/reduce/{{this.otherId}}"><i class="fas fa-minus"></i></a>
           {{ this.qty }}
